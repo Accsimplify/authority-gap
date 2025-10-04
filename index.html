@@ -4,17 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Authority Gap Diagnostic Tool | strategyhub.co.uk</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         :root {
             --primary: #1a3a4b;
-            --secondary: #2563eb;
+            --secondary: #0f2332;
+            --accent: #f59e0b;
             --success: #059669;
             --warning: #d97706;
             --danger: #dc2626;
-            --light: #f9fafb;
+            --light: #fafbfc;
             --dark: #111827;
             --border: #e5e7eb;
+            --subtle-bg: #f8f9fa;
         }
 
         * {
@@ -27,7 +32,7 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             line-height: 1.6;
             color: var(--dark);
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: var(--light);
             min-height: 100vh;
         }
 
@@ -38,9 +43,9 @@
         }
 
         header {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 20px 0;
+            background: var(--primary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            padding: 30px 0;
             margin-bottom: 30px;
         }
 
@@ -53,33 +58,50 @@
         }
 
         .brand h1 {
-            color: var(--primary);
-            font-size: 1.8rem;
+            font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
         }
 
         .tagline {
-            color: #6b7280;
-            font-size: 0.9rem;
+            color: rgba(255,255,255,0.85);
+            font-size: 1rem;
+            font-weight: 400;
+            letter-spacing: 0.01em;
         }
 
-        .mode-selector {
-            display: flex;
-            gap: 10px;
-        }
-
-        .mode-btn {
-            padding: 8px 16px;
-            border: 2px solid var(--border);
+        .progress-indicator {
             background: white;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.3s;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .mode-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--success);
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: var(--primary);
+            white-space: nowrap;
         }
 
         .main-grid {
@@ -91,83 +113,122 @@
 
         .panel {
             background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
         }
 
         .panel h2 {
+            font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
             color: var(--primary);
             margin-bottom: 20px;
-            font-size: 1.4rem;
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .panel h3 {
+            font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+            font-weight: 700;
+        }
+
+        .panel h4 {
+            font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+            font-weight: 700;
         }
 
         .metric-card {
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 6px;
             margin-bottom: 15px;
-            overflow: hidden;
+            overflow: visible;
+            transition: border-color 0.3s;
+        }
+
+        .metric-card.needs-attention {
+            border-color: #fbbf24;
+            background: #fffbeb;
         }
 
         .metric-header {
             padding: 15px;
-            background: var(--light);
+            background: var(--subtle-bg);
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: background 0.2s;
+            position: relative;
+            overflow: visible;
         }
 
         .metric-header:hover {
-            background: #f3f4f6;
+            background: #f0f1f3;
         }
 
         .metric-title {
             display: flex;
             align-items: center;
             gap: 10px;
+            font-weight: 500;
         }
 
         .metric-badge {
             background: var(--primary);
             color: white;
-            padding: 2px 8px;
+            padding: 3px 9px;
             border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: bold;
+            font-size: 0.75rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 0.02em;
         }
 
         .help-icon {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             background: var(--secondary);
             color: white;
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             cursor: help;
             position: relative;
+            font-weight: 700;
+            z-index: 10;
         }
 
         .tooltip {
             position: absolute;
-            bottom: 24px;
+            bottom: 28px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--dark);
             color: white;
-            padding: 8px 12px;
-            border-radius: 5px;
-            white-space: nowrap;
+            padding: 10px 14px;
+            border-radius: 6px;
             font-size: 0.85rem;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s;
             z-index: 1000;
-            max-width: 250px;
+            width: 280px;
             white-space: normal;
+            line-height: 1.5;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--dark);
         }
 
         .help-icon:hover .tooltip {
@@ -177,6 +238,7 @@
         .metric-body {
             padding: 15px;
             display: none;
+            background: white;
         }
 
         .metric-body.active {
@@ -184,10 +246,10 @@
         }
 
         .input-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            display: flex;
+            flex-direction: column;
             gap: 15px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .input-field {
@@ -199,10 +261,11 @@
         .input-field label {
             font-size: 0.9rem;
             color: #6b7280;
+            font-weight: 500;
         }
 
         .input-field input {
-            padding: 8px 12px;
+            padding: 10px 12px;
             border: 1px solid var(--border);
             border-radius: 5px;
             font-size: 0.95rem;
@@ -211,16 +274,36 @@
         .input-field input:focus {
             outline: none;
             border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(15, 35, 50, 0.1);
+        }
+
+        .input-field input.invalid {
+            border-color: var(--danger);
+        }
+
+        .validation-message {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .validation-message.warning {
+            color: var(--warning);
+        }
+
+        .validation-message.show {
+            display: block;
         }
 
         .status-chip {
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .status-green {
@@ -246,21 +329,23 @@
         }
 
         .metric-summary {
-            background: var(--light);
-            padding: 15px;
-            border-radius: 8px;
+            background: var(--subtle-bg);
+            padding: 18px;
+            border-radius: 6px;
             text-align: center;
+            border: 1px solid var(--border);
         }
 
         .metric-summary h3 {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #6b7280;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-weight: 600;
         }
 
         .metric-value {
             font-size: 1.8rem;
-            font-weight: bold;
+            font-weight: 700;
             margin-bottom: 5px;
         }
 
@@ -268,11 +353,19 @@
             position: relative;
             height: 300px;
             margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chart-container canvas {
+            max-width: 100%;
+            max-height: 100%;
         }
 
         .insight-item {
-            background: var(--light);
-            padding: 15px;
+            background: var(--subtle-bg);
+            padding: 18px;
             border-left: 4px solid var(--secondary);
             margin-bottom: 15px;
             border-radius: 5px;
@@ -280,24 +373,26 @@
 
         .insight-item h4 {
             color: var(--primary);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            font-size: 1.05rem;
         }
 
         .insight-impact {
             color: var(--danger);
-            font-weight: 500;
+            font-weight: 600;
             margin: 8px 0;
         }
 
         .insight-action {
             color: var(--success);
-            font-style: italic;
+            font-weight: 500;
         }
 
         .action-buttons {
             display: flex;
             gap: 15px;
             flex-wrap: wrap;
+            justify-content: center;
         }
 
         .btn {
@@ -307,7 +402,7 @@
             font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .btn-primary {
@@ -316,47 +411,91 @@
         }
 
         .btn-primary:hover {
-            background: #0f2332;
+            background: var(--secondary);
         }
 
         .btn-secondary {
-            background: white;
-            color: var(--primary);
-            border: 2px solid var(--primary);
+            background: var(--success);
+            color: white;
         }
 
         .btn-secondary:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        .consultant-notes {
-            width: 100%;
-            min-height: 100px;
-            padding: 10px;
-            border: 1px solid var(--border);
-            border-radius: 5px;
-            font-family: inherit;
-            margin-top: 15px;
-            display: none;
-        }
-
-        .consultant-notes.visible {
-            display: block;
+            background: #047857;
         }
 
         .recovery-timeline {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #0d9488;
             color: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 25px;
+            border-radius: 8px;
             margin-top: 20px;
+        }
+
+        .recovery-timeline h3 {
+            margin-bottom: 18px;
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        .snapshot-comparison-item {
+            background: var(--subtle-bg);
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .trend-positive {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .trend-negative {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        .trend-neutral {
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .aagi-callout {
+            background: var(--subtle-bg);
+            padding: 20px;
+            border-left: 4px solid var(--accent);
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .aagi-callout h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .aagi-callout .aagi-status {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .aagi-callout .aagi-impact {
+            color: var(--danger);
+            font-weight: 600;
+            margin: 10px 0;
+        }
+
+        .aagi-callout .aagi-action {
+            color: var(--success);
+            font-weight: 500;
         }
 
         .timeline-item {
             margin-bottom: 15px;
             padding-left: 25px;
             position: relative;
+            color: white;
         }
 
         .timeline-item::before {
@@ -366,17 +505,101 @@
             font-weight: bold;
         }
 
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .modal-content h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin: 15px 0;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #6b7280;
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+
+        .how-to-use {
+            background: #f8fafc;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: 5px;
+        }
+
+        .how-to-use h2 {
+            margin-bottom: 15px;
+        }
+
+        .how-to-use p {
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        .how-to-use strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .how-to-use ul {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        .how-to-use li {
+            margin-bottom: 8px;
+            line-height: 1.7;
+        }
+
         @media (max-width: 768px) {
             .main-grid {
                 grid-template-columns: 1fr;
             }
 
             .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .input-group {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
             }
 
             .header-content {
@@ -384,63 +607,247 @@
                 align-items: flex-start;
             }
 
-            .mode-selector {
-                width: 100%;
+            .brand h1 {
+                font-size: 1.8rem;
             }
 
-            .mode-btn {
-                flex: 1;
+            .tooltip {
+                width: 240px;
+                font-size: 0.8rem;
             }
         }
 
         @media print {
-            body {
-                background: white;
+            @page {
+                size: A4;
+                margin: 15mm;
             }
 
-            .panel {
+            body { 
+                background: white;
+                padding: 0;
+                font-size: 11pt;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            header {
                 box-shadow: none;
-                border: 1px solid var(--border);
+                border-bottom: 2px solid var(--border);
+                page-break-after: avoid;
+                padding: 10px 0;
+            }
+
+            .brand h1 {
+                font-size: 1.5rem;
+            }
+
+            .tagline {
+                font-size: 0.8rem;
+            }
+
+            .main-grid {
+                display: block;
                 page-break-inside: avoid;
             }
 
-            .btn, .mode-selector {
+            .panel { 
+                box-shadow: none; 
+                border: 1px solid var(--border); 
+                page-break-inside: avoid; 
+                margin-bottom: 15px;
+                padding: 15px;
+            }
+
+            .panel h2 {
+                font-size: 1.2rem;
+                margin-bottom: 10px;
+            }
+
+            .dashboard-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
+                page-break-inside: avoid;
+            }
+
+            .metric-summary {
+                padding: 10px;
+            }
+
+            .metric-value {
+                font-size: 1.4rem;
+            }
+
+            .action-buttons,
+            .btn,
+            .metric-body,
+            .help-icon,
+            .progress-indicator,
+            .modal,
+            #snapshot-panel {
                 display: none;
+            }
+
+            .metric-header { 
+                cursor: default; 
+                background: white;
+                padding: 10px;
+            }
+
+            .metric-card {
+                border: none;
+                margin-bottom: 8px;
+            }
+
+            .chart-container { 
+                page-break-inside: avoid;
+                height: 250px;
+                margin-bottom: 15px;
+            }
+
+            .insight-item {
+                page-break-inside: avoid;
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+
+            .recovery-timeline {
+                page-break-before: always;
+                padding: 15px;
+            }
+
+            .timeline-item {
+                margin-bottom: 10px;
+                padding-left: 20px;
+            }
+
+            footer {
+                page-break-before: avoid;
+                margin-top: 20px;
+                padding: 10px;
+                font-size: 0.75rem;
+            }
+
+            a {
+                color: var(--dark);
+                text-decoration: none;
+            }
+
+            a::after {
+                content: " (" attr(href) ")";
+                font-size: 0.8em;
+                color: #666;
             }
         }
     </style>
 </head>
 <body>
     <header>
+        <!-- Credibility Bar -->
+    <div style="background: white; padding: 15px 20px; border-bottom: 1px solid #e5e7eb; margin-bottom: 30px;">
         <div class="container">
+            <div style="display: flex; gap: 30px; font-size: 0.85rem; color: #6b7280; flex-wrap: wrap; justify-content: center;">
+                <span style="display: flex; align-items: center; gap: 8px;">
+                    <strong style="color: var(--primary);">📊 Framework basis:</strong> Strategic consulting practice with UK SMEs
+                </span>
+                <span style="display: flex; align-items: center; gap: 8px;">
+                    <strong style="color: var(--primary);">⚡ Completion time:</strong> <5 minutes with tracking data
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
             <div class="header-content">
                 <div class="brand">
-                    <h1>Authority Gap Diagnostic Tool</h1>
-                    <div class="tagline">Transform founder dependency into organisational capability | strategyhub.co.uk</div>
-                </div>
-                <div class="mode-selector">
-                    <button class="mode-btn active" data-mode="self">Self-Assessment</button>
-                    <button class="mode-btn" data-mode="guided">Guided Consultation</button>
+                    <h1>Strategy Hub</h1>
+                    <div class="tagline">Strategic Consulting | Enterprise Value Protection</div>
                 </div>
             </div>
         </div>
     </header>
 
     <div class="container">
+        <!-- How to Use Panel -->
+        <div class="panel how-to-use">
+            <h2>Authority Gap Diagnostic: Measurement Framework</h2>
+            <div style="line-height: 1.7;">
+                <p><strong>Purpose:</strong> Quantify the £2m problem hiding in your org chart. UK M&A transactions apply 15-25% discounts for founder dependency. This diagnostic measures whether you're building enterprise value or institutional risk.</p>
+                
+                <p><strong>Before you start:</strong> Track decisions for one week minimum. Count how many decisions require your approval, how many meetings need your input to close, how often you reverse delegated decisions. Without tracking data, scores reveal nothing actionable.</p>
+                
+                <p><strong>Using this framework:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Expand each metric card and enter tracked data</li>
+                    <li>Hover over <strong>?</strong> icons for metric definitions and thresholds</li>
+                    <li>Green = genuine delegation, Amber = authority theatre, Red = systematic bottleneck</li>
+                    <li>Target overall score: 80+ (minimal key person risk)</li>
+                </ul>
+                
+                <p><strong>After measurement:</strong> Address your worst 2-3 metrics first. Review "Live Contextual Insights" for specific interventions. Typical recovery timeline: 3-6 months to reduce founder dependency by 20+ points. Markets price this gap whether you measure it or not.</p>
+            </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="progress-indicator">
+            <div class="progress-text" id="progress-text">0 of 7 metrics completed (0%)</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
+
         <div class="main-grid">
             <!-- Input Panel -->
             <div class="panel">
-                <h2>Metric Input</h2>
+                <h2>Authority Gap Measurement</h2>
                 
+                <!-- AAGI - Moved to top -->
+                <div class="metric-card" id="card-aagi">
+                    <div class="metric-header">
+                        <div class="metric-title">
+                            <span>Authority-Accountability Gap Index</span>
+                            <span class="metric-badge">AAGI</span>
+                            <div class="help-icon">
+                                ?
+                                <div class="tooltip">Count of OKRs where owners lack matching decision rights. Zero is the only acceptable target. Even 1 mismatched strategic OKR signals structural governance failure.</div>
+                            </div>
+                        </div>
+                        <span class="status-chip" id="aagi-status"></span>
+                    </div>
+                    <div class="metric-body active">
+                        <div class="input-group">
+                            <div class="input-field">
+                                <label>OKRs with mismatched authority</label>
+                                <input type="number" id="aagi-raw1" placeholder="e.g. 3" min="0">
+                                <div class="validation-message" id="aagi-raw1-error"></div>
+                            </div>
+                            <div class="input-field">
+                                <label>Total OKRs</label>
+                                <input type="number" id="aagi-raw2" placeholder="e.g. 12" min="0">
+                                <div class="validation-message" id="aagi-raw2-error"></div>
+                            </div>
+                        </div>
+                        <div class="input-field">
+                            <label>Or enter count directly</label>
+                            <input type="number" id="aagi-direct" placeholder="e.g. 3" min="0">
+                            <div class="validation-message" id="aagi-direct-error"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- SAR -->
-                <div class="metric-card">
+                <div class="metric-card" id="card-sar">
                     <div class="metric-header">
                         <div class="metric-title">
                             <span>Shadow Approval Rate</span>
                             <span class="metric-badge">SAR</span>
                             <div class="help-icon">
                                 ?
-                                <div class="tooltip">% of in-band decisions still requiring founder sign-off. Healthy <10%; problematic >30%</div>
+                                <div class="tooltip">Authority theatre metric. Tracks decisions you've 'delegated' but still approve. SAR >30% = systematic bottleneck. SAR <10% = genuine transfer.</div>
                             </div>
                         </div>
                         <span class="status-chip" id="sar-status"></span>
@@ -449,60 +856,32 @@
                         <div class="input-group">
                             <div class="input-field">
                                 <label>Decisions requiring founder approval</label>
-                                <input type="number" id="sar-raw1" placeholder="e.g. 45">
+                                <input type="number" id="sar-raw1" placeholder="e.g. 45" min="0">
+                                <div class="validation-message" id="sar-raw1-error"></div>
                             </div>
                             <div class="input-field">
                                 <label>Total in-band decisions</label>
-                                <input type="number" id="sar-raw2" placeholder="e.g. 150">
+                                <input type="number" id="sar-raw2" placeholder="e.g. 150" min="0">
+                                <div class="validation-message" id="sar-raw2-error"></div>
                             </div>
                         </div>
                         <div class="input-field">
                             <label>Or enter percentage directly</label>
                             <input type="number" id="sar-percent" placeholder="e.g. 30" min="0" max="100">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- AAGI -->
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <div class="metric-title">
-                            <span>Authority-Accountability Gap Index</span>
-                            <span class="metric-badge">AAGI</span>
-                            <div class="help-icon">
-                                ?
-                                <div class="tooltip">Count of OKRs where owners lack matching decision rights. Target: 0</div>
-                            </div>
-                        </div>
-                        <span class="status-chip" id="aagi-status"></span>
-                    </div>
-                    <div class="metric-body">
-                        <div class="input-group">
-                            <div class="input-field">
-                                <label>OKRs with mismatched authority</label>
-                                <input type="number" id="aagi-raw1" placeholder="e.g. 8">
-                            </div>
-                            <div class="input-field">
-                                <label>Total OKRs</label>
-                                <input type="number" id="aagi-raw2" placeholder="e.g. 20">
-                            </div>
-                        </div>
-                        <div class="input-field">
-                            <label>Or enter count directly</label>
-                            <input type="number" id="aagi-direct" placeholder="e.g. 8" min="0">
+                            <div class="validation-message" id="sar-percent-error"></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- ABU -->
-                <div class="metric-card">
+                <div class="metric-card" id="card-abu">
                     <div class="metric-header">
                         <div class="metric-title">
                             <span>Authority Band Utilisation</span>
                             <span class="metric-badge">ABU</span>
                             <div class="help-icon">
                                 ?
-                                <div class="tooltip">% of decisions made at/below intended level per published bands. Target >80%</div>
+                                <div class="tooltip">Decisions made at intended level per published bands. If you haven't published bands, ABU = 0% by definition. Target: >80%</div>
                             </div>
                         </div>
                         <span class="status-chip" id="abu-status"></span>
@@ -511,29 +890,32 @@
                         <div class="input-group">
                             <div class="input-field">
                                 <label>Decisions at correct level</label>
-                                <input type="number" id="abu-raw1" placeholder="e.g. 120">
+                                <input type="number" id="abu-raw1" placeholder="e.g. 120" min="0">
+                                <div class="validation-message" id="abu-raw1-error"></div>
                             </div>
                             <div class="input-field">
                                 <label>Total decisions tracked</label>
-                                <input type="number" id="abu-raw2" placeholder="e.g. 150">
+                                <input type="number" id="abu-raw2" placeholder="e.g. 150" min="0">
+                                <div class="validation-message" id="abu-raw2-error"></div>
                             </div>
                         </div>
                         <div class="input-field">
                             <label>Or enter percentage directly</label>
                             <input type="number" id="abu-percent" placeholder="e.g. 80" min="0" max="100">
+                            <div class="validation-message" id="abu-percent-error"></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- FGS -->
-                <div class="metric-card">
+                <div class="metric-card" id="card-fgs">
                     <div class="metric-header">
                         <div class="metric-title">
                             <span>Founder Gate Share</span>
                             <span class="metric-badge">FGS</span>
                             <div class="help-icon">
                                 ?
-                                <div class="tooltip">% of meetings requiring founder decision to close. >25% = bottleneck</div>
+                                <div class="tooltip">Meetings requiring founder decision to close. FGS >25% indicates you're the organisational bottleneck, not the strategic leader.</div>
                             </div>
                         </div>
                         <span class="status-chip" id="fgs-status"></span>
@@ -542,29 +924,32 @@
                         <div class="input-group">
                             <div class="input-field">
                                 <label>Meetings needing founder decision</label>
-                                <input type="number" id="fgs-raw1" placeholder="e.g. 15">
+                                <input type="number" id="fgs-raw1" placeholder="e.g. 15" min="0">
+                                <div class="validation-message" id="fgs-raw1-error"></div>
                             </div>
                             <div class="input-field">
                                 <label>Total meetings</label>
-                                <input type="number" id="fgs-raw2" placeholder="e.g. 60">
+                                <input type="number" id="fgs-raw2" placeholder="e.g. 60" min="0">
+                                <div class="validation-message" id="fgs-raw2-error"></div>
                             </div>
                         </div>
                         <div class="input-field">
                             <label>Or enter percentage directly</label>
                             <input type="number" id="fgs-percent" placeholder="e.g. 25" min="0" max="100">
+                            <div class="validation-message" id="fgs-percent-error"></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- DTF -->
-                <div class="metric-card">
+                <div class="metric-card" id="card-dtf">
                     <div class="metric-header">
                         <div class="metric-title">
                             <span>Decision Throughput without Founder</span>
                             <span class="metric-badge">DTF</span>
                             <div class="help-icon">
                                 ?
-                                <div class="tooltip">% of decisions resolved by non-founder leads within SLAs. Target >70%</div>
+                                <div class="tooltip">Non-founder decisions resolved within SLAs. DTF <70% means organisational capability is suppressed by approval dependency. Target: >70%</div>
                             </div>
                         </div>
                         <span class="status-chip" id="dtf-status"></span>
@@ -573,29 +958,32 @@
                         <div class="input-group">
                             <div class="input-field">
                                 <label>Non-founder decisions within SLA</label>
-                                <input type="number" id="dtf-raw1" placeholder="e.g. 84">
+                                <input type="number" id="dtf-raw1" placeholder="e.g. 84" min="0">
+                                <div class="validation-message" id="dtf-raw1-error"></div>
                             </div>
                             <div class="input-field">
                                 <label>Total decisions</label>
-                                <input type="number" id="dtf-raw2" placeholder="e.g. 120">
+                                <input type="number" id="dtf-raw2" placeholder="e.g. 120" min="0">
+                                <div class="validation-message" id="dtf-raw2-error"></div>
                             </div>
                         </div>
                         <div class="input-field">
                             <label>Or enter percentage directly</label>
                             <input type="number" id="dtf-percent" placeholder="e.g. 70" min="0" max="100">
+                            <div class="validation-message" id="dtf-percent-error"></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- TR -->
-                <div class="metric-card">
+                <div class="metric-card" id="card-tr">
                     <div class="metric-header">
                         <div class="metric-title">
                             <span>Turnback Ratio</span>
                             <span class="metric-badge">TR</span>
                             <div class="help-icon">
                                 ?
-                                <div class="tooltip">% of delegated decisions reversed by founder within 7 days. >5% = trust issues</div>
+                                <div class="tooltip">Delegated decisions reversed within 7 days. TR >5% signals trust deficit. Teams learn to seek approval regardless of formal authority when reversals are frequent.</div>
                             </div>
                         </div>
                         <span class="status-chip" id="tr-status"></span>
@@ -604,29 +992,32 @@
                         <div class="input-group">
                             <div class="input-field">
                                 <label>Decisions reversed</label>
-                                <input type="number" id="tr-raw1" placeholder="e.g. 3">
+                                <input type="number" id="tr-raw1" placeholder="e.g. 3" min="0">
+                                <div class="validation-message" id="tr-raw1-error"></div>
                             </div>
                             <div class="input-field">
                                 <label>Total delegated decisions</label>
-                                <input type="number" id="tr-raw2" placeholder="e.g. 50">
+                                <input type="number" id="tr-raw2" placeholder="e.g. 50" min="0">
+                                <div class="validation-message" id="tr-raw2-error"></div>
                             </div>
                         </div>
                         <div class="input-field">
                             <label>Or enter percentage directly</label>
                             <input type="number" id="tr-percent" placeholder="e.g. 6" min="0" max="100">
+                            <div class="validation-message" id="tr-percent-error"></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- FQTS -->
-                <div class="metric-card">
+                <div class="metric-card" id="card-fqts">
                     <div class="metric-header">
                         <div class="metric-title">
                             <span>Founder Queue Time Share</span>
                             <span class="metric-badge">FQTS</span>
                             <div class="help-icon">
                                 ?
-                                <div class="tooltip">% of decision latency due to "awaiting founder". Target <20%</div>
+                                <div class="tooltip">Decision latency due to awaiting founder. The hidden cost of centralised approval. FQTS >30% means you're the constraint on execution velocity. Target: <20%</div>
                             </div>
                         </div>
                         <span class="status-chip" id="fqts-status"></span>
@@ -635,47 +1026,44 @@
                         <div class="input-group">
                             <div class="input-field">
                                 <label>Hours awaiting founder</label>
-                                <input type="number" id="fqts-raw1" placeholder="e.g. 48">
+                                <input type="number" id="fqts-raw1" placeholder="e.g. 48" min="0">
+                                <div class="validation-message" id="fqts-raw1-error"></div>
                             </div>
                             <div class="input-field">
                                 <label>Total decision hours</label>
-                                <input type="number" id="fqts-raw2" placeholder="e.g. 160">
+                                <input type="number" id="fqts-raw2" placeholder="e.g. 160" min="0">
+                                <div class="validation-message" id="fqts-raw2-error"></div>
                             </div>
                         </div>
                         <div class="input-field">
                             <label>Or enter percentage directly</label>
                             <input type="number" id="fqts-percent" placeholder="e.g. 30" min="0" max="100">
+                            <div class="validation-message" id="fqts-percent-error"></div>
                         </div>
                     </div>
-                </div>
-
-                <textarea class="consultant-notes" id="consultant-notes" placeholder="Consultant notes (visible in Guided mode only)..."></textarea>
-
-                <div style="margin-top: 20px;">
-                    <button class="btn btn-primary" onclick="saveSnapshot()">Save Snapshot</button>
                 </div>
             </div>
 
             <!-- Results Dashboard -->
             <div class="panel">
-                <h2>Results Dashboard</h2>
+                <h2>Market Risk Exposure</h2>
                 
                 <div style="text-align: center; margin-bottom: 30px;">
                     <h3 style="color: #6b7280; margin-bottom: 10px;">Overall Authority Gap Score</h3>
-                    <div id="overall-score" style="font-size: 4rem; font-weight: bold; color: var(--primary);">--</div>
+                    <div id="overall-score" style="font-size: 4rem; font-weight: 700; color: var(--primary);">--</div>
                     <div id="overall-status" style="font-size: 1.2rem; margin-top: 10px;"></div>
                 </div>
 
                 <div class="dashboard-grid">
                     <div class="metric-summary">
-                        <h3>SAR</h3>
-                        <div class="metric-value" id="sar-value">--</div>
-                        <span class="status-chip" id="sar-summary"></span>
-                    </div>
-                    <div class="metric-summary">
                         <h3>AAGI</h3>
                         <div class="metric-value" id="aagi-value">--</div>
                         <span class="status-chip" id="aagi-summary"></span>
+                    </div>
+                    <div class="metric-summary">
+                        <h3>SAR</h3>
+                        <div class="metric-value" id="sar-value">--</div>
+                        <span class="status-chip" id="sar-summary"></span>
                     </div>
                     <div class="metric-summary">
                         <h3>ABU</h3>
@@ -704,8 +1092,12 @@
                     </div>
                 </div>
 
-                <div class="chart-container">
-                    <canvas id="radarChart"></canvas>
+                <!-- AAGI Callout - Always Visible -->
+                <div class="aagi-callout" id="aagi-callout">
+                    <h4 id="aagi-callout-title">Authority-Accountability Gap (AAGI)</h4>
+                    <div class="aagi-status" id="aagi-callout-value" style="color: #6b7280;">Not yet measured</div>
+                    <div class="aagi-impact" id="aagi-callout-impact" style="color: var(--dark); font-weight: 500;">You cannot hold someone accountable for an outcome they lack authority to deliver. Each mismatched OKR represents structural failure, not performance issues.</div>
+                    <div class="aagi-action" id="aagi-callout-action" style="color: var(--secondary); font-weight: 600;">Zero mismatched OKRs is the only acceptable target. Count carefully.</div>
                 </div>
 
                 <div class="chart-container">
@@ -716,40 +1108,78 @@
 
         <!-- Insights Panel -->
         <div class="panel">
-            <h2>Contextual Insights</h2>
+            <h2>Live Contextual Insights</h2>
             <div id="insights-container"></div>
             
             <div class="recovery-timeline">
-                <h3>Recovery Timeline Projection</h3>
+                <h3>Systematic Dependency Reduction Timeline</h3>
                 <div class="timeline-item">
-                    <strong>Week 1 (Diagnostic):</strong> Complete decision log, authority mapping, run 48-hour absence test
+                    <strong>Week 1: Measure What Markets Price</strong> — Complete decision log, map authority bands, execute 48-hour absence test
                 </div>
                 <div class="timeline-item">
-                    <strong>Month 1 (Implementation):</strong> Deploy metrics dashboard, write criteria for top 10 approval requests
+                    <strong>Month 1: Deploy Instrumentation</strong> — Dashboard tracking these seven metrics weekly, written criteria for top 10 approval patterns
                 </div>
                 <div class="timeline-item">
-                    <strong>Month 3 (Validation):</strong> Week-long absence periods, SAR <15%, DTF trending upward
+                    <strong>Month 3: Operational Proof</strong> — Week-long absence without operational disruption, SAR <15%, DTF showing consistent growth
                 </div>
             </div>
+        </div>
+
+        <!-- Snapshot Comparison Panel -->
+        <div class="panel" id="snapshot-panel" style="display: none;">
+            <h2>Snapshot Comparison</h2>
+            <div id="snapshot-list"></div>
+            <div id="comparison-view" style="margin-top: 20px;"></div>
+        </div>
+
+        <!-- Methodology Note -->
+        <div class="panel" style="background: #f3f4f6; border-left: 4px solid var(--secondary);">
+            <h2>Methodology Note</h2>
+            <p style="margin-bottom: 12px; line-height: 1.7;">This framework derives from strategic consulting practice with founder-dependent UK SMEs. The seven metrics identify patterns observed when investor interest deteriorates due to key person risk.</p>
+            <p style="line-height: 1.7;"><strong style="color: var(--primary);">Data collection minimum:</strong> One week of decision tracking across all seven metrics. Scores without baseline tracking are directional only and may underestimate founder dependency during operational stress periods.</p>
         </div>
 
         <!-- Action Panel -->
         <div class="panel">
-            <h2>Next Steps</h2>
             <div class="action-buttons">
-                <button class="btn btn-primary" onclick="downloadPDF()">Download Report</button>
-                <button class="btn btn-secondary" onclick="bookConsultation()">Book Consultation</button>
-                <button class="btn btn-secondary" onclick="emailResults()">Email Results</button>
+                <button class="btn btn-secondary" onclick="saveSnapshot()" title="Save current metric values with timestamp for trend tracking">Save Snapshot</button>
+                <button class="btn btn-secondary" onclick="toggleSnapshotView()" title="View saved snapshots and compare trends over time">Compare Snapshots</button>
+                <button class="btn btn-secondary" onclick="exportData()" title="Download all data as JSON file for backup or external analysis">Export Data</button>
+                <button class="btn btn-primary" onclick="downloadPDF()" title="Generate printer-friendly report of current diagnostic results">Print Report</button>
+                <button class="btn btn-primary" onclick="showResetModal()" style="background: #dc2626;" title="Permanently delete all metrics and snapshots (requires confirmation)">Reset All Data</button>
             </div>
         </div>
     </div>
 
+    <!-- Reset Modal -->
+    <div class="modal" id="reset-modal">
+        <div class="modal-content">
+            <h3>Confirm Data Reset</h3>
+            <p>This will permanently delete all entered metrics and snapshots. This action cannot be undone.</p>
+            <p><strong>Type DELETE to confirm:</strong></p>
+            <input type="text" id="reset-confirmation" placeholder="Type DELETE">
+            <div class="modal-buttons">
+                <button class="btn btn-primary" onclick="closeResetModal()" style="background: #6b7280;">Cancel</button>
+                <button class="btn btn-primary" onclick="confirmReset()" style="background: #dc2626;">Reset All Data</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Disclaimer Footer -->
+    <div style="background: #fff7ed; border: 2px solid #f59e0b; padding: 20px; margin: 40px 20px 20px 20px; border-radius: 8px; max-width: 1200px; margin-left: auto; margin-right: auto;">
+        <h3 style="color: #92400e; margin-bottom: 10px; font-size: 1.1rem;">Disclaimer</h3>
+        <p style="font-size: 0.9rem; color: #78350f; line-height: 1.6;">This diagnostic tool provides indicative guidance based on self-reported data. Scores and recommendations are for informational purposes only and do not constitute professional business, legal, or financial advice. Organisational complexity varies; results should be interpreted within your specific context. For implementation support, contact Strategy Hub directly via strategyhub.co.uk.</p>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Strategy Hub. Framework Methodology.</p>
+        <p style="margin-top: 5px;">Authority Gap Diagnostic Tool | <a href="https://strategyhub.co.uk" style="color: #2563eb;">strategyhub.co.uk</a></p>
+    </footer>
+
     <script>
-        // Global state
-        let currentMode = 'self';
         let metrics = {
+            aagi: { value: null, target: 0, critical: 5 },
             sar: { value: null, target: 10, critical: 30 },
-            aagi: { value: null, target: 0, critical: 10 },
             abu: { value: null, target: 80, critical: 48 },
             fgs: { value: null, target: 15, critical: 25 },
             dtf: { value: null, target: 70, critical: 42 },
@@ -758,13 +1188,13 @@
         };
         let snapshots = [];
         let radarChart = null;
-        let trendChart = null;
 
-        // Load saved data
         window.addEventListener('DOMContentLoaded', () => {
             loadFromStorage();
             initializeEventListeners();
             updateDashboard();
+            updateProgressIndicator();
+            highlightNextMetric();
         });
 
         function loadFromStorage() {
@@ -774,10 +1204,12 @@
                 metrics = data.metrics || metrics;
                 snapshots = data.snapshots || [];
                 
-                // Restore input values
                 Object.keys(metrics).forEach(key => {
                     if (metrics[key].value !== null) {
-                        document.getElementById(`${key}-percent`).value = metrics[key].value;
+                        const percentInput = document.getElementById(`${key}-percent`);
+                        const directInput = document.getElementById(`${key}-direct`);
+                        if (percentInput) percentInput.value = metrics[key].value;
+                        if (directInput) directInput.value = metrics[key].value;
                     }
                 });
             }
@@ -792,17 +1224,6 @@
         }
 
         function initializeEventListeners() {
-            // Mode selector
-            document.querySelectorAll('.mode-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-                    e.target.classList.add('active');
-                    currentMode = e.target.dataset.mode;
-                    updateMode();
-                });
-            });
-
-            // Metric card toggles
             document.querySelectorAll('.metric-header').forEach(header => {
                 header.addEventListener('click', () => {
                     const body = header.nextElementSibling;
@@ -810,22 +1231,26 @@
                 });
             });
 
-            // Input handlers
-            ['sar', 'aagi', 'abu', 'fgs', 'dtf', 'tr', 'fqts'].forEach(metric => {
-                // Raw inputs
+            ['aagi', 'sar', 'abu', 'fgs', 'dtf', 'tr', 'fqts'].forEach(metric => {
                 const raw1 = document.getElementById(`${metric}-raw1`);
                 const raw2 = document.getElementById(`${metric}-raw2`);
                 const percent = document.getElementById(`${metric}-percent`);
                 const direct = document.getElementById(`${metric}-direct`);
 
                 if (raw1 && raw2) {
-                    raw1.addEventListener('input', () => calculateFromRaw(metric));
-                    raw2.addEventListener('input', () => calculateFromRaw(metric));
+                    raw1.addEventListener('input', () => {
+                        validateInput(raw1, `${metric}-raw1`);
+                        calculateFromRaw(metric);
+                    });
+                    raw2.addEventListener('input', () => {
+                        validateInput(raw2, `${metric}-raw2`);
+                        calculateFromRaw(metric);
+                    });
                 }
 
                 if (percent) {
                     percent.addEventListener('input', () => {
-                        if (percent.value) {
+                        if (validateInput(percent, `${metric}-percent`) && percent.value) {
                             metrics[metric].value = parseFloat(percent.value);
                             if (raw1 && raw2) {
                                 raw1.value = '';
@@ -833,6 +1258,8 @@
                             }
                             updateMetricStatus(metric);
                             updateDashboard();
+                            updateProgressIndicator();
+                            highlightNextMetric();
                             saveToStorage();
                         }
                     });
@@ -840,10 +1267,16 @@
 
                 if (direct) {
                     direct.addEventListener('input', () => {
-                        if (direct.value) {
+                        if (validateInput(direct, `${metric}-direct`) && direct.value) {
                             metrics[metric].value = parseFloat(direct.value);
+                            if (raw1 && raw2) {
+                                raw1.value = '';
+                                raw2.value = '';
+                            }
                             updateMetricStatus(metric);
                             updateDashboard();
+                            updateProgressIndicator();
+                            highlightNextMetric();
                             saveToStorage();
                         }
                     });
@@ -851,18 +1284,100 @@
             });
         }
 
+        function validateInput(input, fieldId) {
+            const errorEl = document.getElementById(`${fieldId}-error`);
+            const value = parseFloat(input.value);
+            
+            if (!input.value) {
+                input.classList.remove('invalid');
+                errorEl.classList.remove('show');
+                return true;
+            }
+
+            if (value < 0) {
+                input.classList.add('invalid');
+                errorEl.textContent = 'Value cannot be negative';
+                errorEl.classList.add('show');
+                return false;
+            }
+
+            if (fieldId.includes('percent') && value > 100) {
+                input.classList.add('invalid');
+                errorEl.textContent = 'Percentage cannot exceed 100%';
+                errorEl.classList.add('show');
+                return false;
+            }
+
+            // Logical consistency checks
+            const metric = fieldId.split('-')[0];
+            if (metric === 'sar' && value > 50 && metrics.abu.value > 80) {
+                errorEl.textContent = 'Warning: High SAR contradicts high ABU. Review band definitions.';
+                errorEl.classList.add('warning', 'show');
+            } else {
+                errorEl.classList.remove('show', 'warning');
+            }
+
+            input.classList.remove('invalid');
+            return true;
+        }
+
         function calculateFromRaw(metric) {
             const raw1 = document.getElementById(`${metric}-raw1`);
             const raw2 = document.getElementById(`${metric}-raw2`);
             const percent = document.getElementById(`${metric}-percent`);
+            const direct = document.getElementById(`${metric}-direct`);
 
             if (raw1.value && raw2.value) {
-                const value = (parseFloat(raw1.value) / parseFloat(raw2.value)) * 100;
-                metrics[metric].value = Math.round(value * 10) / 10;
-                percent.value = metrics[metric].value;
+                const val1 = parseFloat(raw1.value);
+                const val2 = parseFloat(raw2.value);
+
+                if (val2 === 0) {
+                    const errorEl = document.getElementById(`${metric}-raw2-error`);
+                    errorEl.textContent = 'Cannot divide by zero';
+                    errorEl.classList.add('show');
+                    return;
+                }
+
+                if (metric === 'aagi') {
+                    metrics[metric].value = val1;
+                    if (direct) direct.value = val1;
+                } else {
+                    const value = (val1 / val2) * 100;
+                    metrics[metric].value = Math.round(value * 10) / 10;
+                    if (percent) percent.value = metrics[metric].value;
+                }
                 updateMetricStatus(metric);
                 updateDashboard();
+                updateProgressIndicator();
+                highlightNextMetric();
                 saveToStorage();
+            }
+        }
+
+        function updateProgressIndicator() {
+            const completed = Object.values(metrics).filter(m => m.value !== null).length;
+            const total = Object.keys(metrics).length;
+            const percentage = Math.round((completed / total) * 100);
+
+            document.getElementById('progress-text').textContent = 
+                `${completed} of ${total} metrics completed (${percentage}%)`;
+            document.getElementById('progress-fill').style.width = `${percentage}%`;
+        }
+
+        function highlightNextMetric() {
+            const metricOrder = ['aagi', 'sar', 'abu', 'fgs', 'dtf', 'tr', 'fqts'];
+            
+            // Remove all highlights
+            metricOrder.forEach(metric => {
+                document.getElementById(`card-${metric}`).classList.remove('needs-attention');
+            });
+
+            // Find first incomplete metric
+            for (let metric of metricOrder) {
+                if (metrics[metric].value === null) {
+                    document.getElementById(`card-${metric}`).classList.add('needs-attention');
+                    break;
+                }
             }
         }
 
@@ -877,41 +1392,39 @@
 
             let statusClass = 'status-green';
             let statusText = '✓ Healthy';
-            let isHealthy = false;
 
-            // Special handling for different metric types
             if (metric === 'aagi') {
-                // AAGI is a count, not percentage
                 if (value === 0) {
-                    isHealthy = true;
+                    statusClass = 'status-green';
+                    statusText = '✓ Target State';
                 } else if (value <= 5) {
                     statusClass = 'status-amber';
-                    statusText = '⚠ Concern';
+                    statusText = '⚠ Structural Gap';
                 } else {
                     statusClass = 'status-red';
-                    statusText = '✕ Critical';
+                    statusText = '✕ Governance Failure';
                 }
             } else if (['sar', 'fgs', 'tr', 'fqts'].includes(metric)) {
-                // Lower is better
                 if (value <= metrics[metric].target) {
-                    isHealthy = true;
+                    statusClass = 'status-green';
+                    statusText = '✓ Healthy';
                 } else if (value <= metrics[metric].critical) {
                     statusClass = 'status-amber';
-                    statusText = '⚠ Concern';
+                    statusText = '⚠ Authority Theatre';
                 } else {
                     statusClass = 'status-red';
-                    statusText = '✕ Critical';
+                    statusText = '✕ Bottleneck';
                 }
             } else if (['abu', 'dtf'].includes(metric)) {
-                // Higher is better
                 if (value >= metrics[metric].target) {
-                    isHealthy = true;
+                    statusClass = 'status-green';
+                    statusText = '✓ Healthy';
                 } else if (value >= metrics[metric].critical) {
                     statusClass = 'status-amber';
-                    statusText = '⚠ Concern';
+                    statusText = '⚠ Suppressed Capability';
                 } else {
                     statusClass = 'status-red';
-                    statusText = '✕ Critical';
+                    statusText = '✕ Critical Gap';
                 }
             }
 
@@ -922,8 +1435,9 @@
         function updateDashboard() {
             updateOverallScore();
             updateMetricSummaries();
-            updateCharts();
+            updateAAGICallout();
             generateInsights();
+            renderChart();
         }
 
         function updateOverallScore() {
@@ -942,7 +1456,6 @@
                 if (key === 'aagi') {
                     health = data.value === 0 ? 100 : (data.value <= 5 ? 50 : 0);
                 } else if (['sar', 'fgs', 'tr', 'fqts'].includes(key)) {
-                    // Lower is better
                     if (data.value <= data.target) {
                         health = 100;
                     } else if (data.value <= data.critical) {
@@ -951,7 +1464,6 @@
                         health = Math.max(0, 50 * (100 - data.value) / (100 - data.critical));
                     }
                 } else {
-                    // Higher is better
                     if (data.value >= data.target) {
                         health = 100;
                     } else if (data.value >= data.critical) {
@@ -970,16 +1482,16 @@
             let status = '';
             let color = '';
             if (overallScore >= 80) {
-                status = 'Excellent - Minimal founder dependency';
+                status = 'Minimal founder dependency — enterprise ready';
                 color = 'var(--success)';
             } else if (overallScore >= 60) {
-                status = 'Good - Some delegation opportunities';
+                status = 'Moderate dependency — delegation gaps identified';
                 color = 'var(--warning)';
             } else if (overallScore >= 40) {
-                status = 'Concerning - Significant bottlenecks';
+                status = 'Significant bottlenecks — systematic intervention required';
                 color = 'var(--warning)';
             } else {
-                status = 'Critical - Urgent intervention required';
+                status = 'Critical founder dependency — valuation risk material';
                 color = 'var(--danger)';
             }
             
@@ -990,7 +1502,7 @@
         }
 
         function updateMetricSummaries() {
-            Object.keys(metrics).forEach(key => {
+            ['aagi', 'sar', 'abu', 'fgs', 'dtf', 'tr', 'fqts'].forEach(key => {
                 const valueEl = document.getElementById(`${key}-value`);
                 const summaryEl = document.getElementById(`${key}-summary`);
                 
@@ -1001,7 +1513,6 @@
                         valueEl.textContent = metrics[key].value + '%';
                     }
                     
-                    // Update summary status
                     updateMetricStatus(key);
                     const status = document.getElementById(`${key}-status`);
                     summaryEl.className = status.className;
@@ -1013,39 +1524,111 @@
             });
         }
 
-        function updateCharts() {
-            updateRadarChart();
-            updateTrendChart();
+        function updateAAGICallout() {
+            const callout = document.getElementById('aagi-callout');
+            const titleEl = document.getElementById('aagi-callout-title');
+            const valueEl = document.getElementById('aagi-callout-value');
+            const impactEl = document.getElementById('aagi-callout-impact');
+            const actionEl = document.getElementById('aagi-callout-action');
+            
+            if (metrics.aagi.value === null) {
+                valueEl.textContent = 'Not yet measured';
+                valueEl.style.color = '#6b7280';
+                impactEl.innerHTML = 'You cannot hold someone accountable for an outcome they lack authority to deliver. Each mismatched OKR represents structural failure, not performance issues.';
+                impactEl.style.color = 'var(--dark)';
+                impactEl.style.fontWeight = '500';
+                actionEl.textContent = 'Zero mismatched OKRs is the only acceptable target. Count carefully.';
+                actionEl.style.color = 'var(--secondary)';
+                actionEl.style.fontWeight = '600';
+                callout.style.background = '#f8f9fa';
+                callout.style.borderLeftColor = '#f59e0b';
+                return;
+            }
+
+            titleEl.textContent = 'Authority-Accountability Gap (AAGI)';
+            
+            const count = metrics.aagi.value;
+            valueEl.textContent = `${count} ${count === 1 ? 'OKR' : 'OKRs'} mismatched`;
+
+            if (count === 0) {
+                callout.style.background = '#d1fae5';
+                callout.style.borderLeftColor = '#059669';
+                valueEl.style.color = '#047857';
+                impactEl.innerHTML = '<strong>Target state achieved.</strong> All OKRs have properly aligned decision rights. This is mature governance.';
+                impactEl.style.color = '#065f46';
+                impactEl.style.fontWeight = '600';
+                actionEl.textContent = '→ Maintain this alignment as organisation scales';
+                actionEl.style.color = '#047857';
+                actionEl.style.fontWeight = '500';
+            } else if (count === 1) {
+                callout.style.background = '#fed7aa';
+                callout.style.borderLeftColor = '#f59e0b';
+                valueEl.style.color = '#92400e';
+                impactEl.innerHTML = '<strong>Material governance gap.</strong> Even one mismatched OKR signals structural failure requiring immediate attention.';
+                impactEl.style.color = '#92400e';
+                impactEl.style.fontWeight = '600';
+                actionEl.textContent = '→ Review this OKR owner\'s authority within 48 hours';
+                actionEl.style.color = '#047857';
+                actionEl.style.fontWeight = '500';
+            } else if (count <= 5) {
+                callout.style.background = '#fed7aa';
+                callout.style.borderLeftColor = '#f59e0b';
+                valueEl.style.color = '#92400e';
+                impactEl.innerHTML = `<strong>Systematic governance failure.</strong> Multiple misaligned OKRs indicate fundamental structural problems, not individual issues.`;
+                impactEl.style.color = '#92400e';
+                impactEl.style.fontWeight = '600';
+                actionEl.textContent = '→ Schedule authority realignment session within 7 days';
+                actionEl.style.color = '#047857';
+                actionEl.style.fontWeight = '500';
+            } else {
+                callout.style.background = '#fee2e2';
+                callout.style.borderLeftColor = '#dc2626';
+                valueEl.style.color = '#991b1b';
+                impactEl.innerHTML = `<strong>Critical structural breakdown.</strong> Organisation has authority theatre, not genuine accountability framework.`;
+                impactEl.style.color = '#991b1b';
+                impactEl.style.fontWeight = '600';
+                actionEl.textContent = '→ Zero-base all decision rights this month';
+                actionEl.style.color = '#047857';
+                actionEl.style.fontWeight = '500';
+            }
         }
 
-        function updateRadarChart() {
-            const ctx = document.getElementById('radarChart').getContext('2d');
+        function renderChart() {
+            const validMetrics = Object.entries(metrics).filter(([key, data]) => data.value !== null);
             
-            const data = {
-                labels: ['SAR', 'AAGI', 'ABU', 'FGS', 'DTF', 'TR', 'FQTS'],
-                datasets: [{
-                    label: 'Current',
-                    data: [
-                        metrics.sar.value !== null ? (100 - metrics.sar.value) : 0,
-                        metrics.aagi.value !== null ? (metrics.aagi.value === 0 ? 100 : Math.max(0, 100 - metrics.aagi.value * 10)) : 0,
-                        metrics.abu.value || 0,
-                        metrics.fgs.value !== null ? (100 - metrics.fgs.value) : 0,
-                        metrics.dtf.value || 0,
-                        metrics.tr.value !== null ? (100 - metrics.tr.value * 10) : 0,
-                        metrics.fqts.value !== null ? (100 - metrics.fqts.value) : 0
-                    ],
-                    backgroundColor: 'rgba(37, 99, 235, 0.2)',
-                    borderColor: 'rgba(37, 99, 235, 1)',
-                    borderWidth: 2
-                }, {
-                    label: 'Target',
-                    data: [90, 100, 80, 85, 70, 95, 80],
-                    backgroundColor: 'rgba(5, 150, 105, 0.1)',
-                    borderColor: 'rgba(5, 150, 105, 0.5)',
-                    borderWidth: 1,
-                    borderDash: [5, 5]
-                }]
-            };
+            if (validMetrics.length === 0) return;
+
+            const ctx = document.getElementById('trendChart').getContext('2d');
+            
+            // Calculate health scores for all metrics (0-100 scale)
+            const healthScores = ['aagi', 'sar', 'abu', 'fgs', 'dtf', 'tr', 'fqts'].map(key => {
+                if (metrics[key].value === null) return 0;
+                
+                const data = metrics[key];
+                let health = 0;
+                
+                if (key === 'aagi') {
+                    health = data.value === 0 ? 100 : (data.value <= 5 ? 50 : 0);
+                } else if (['sar', 'fgs', 'tr', 'fqts'].includes(key)) {
+                    if (data.value <= data.target) {
+                        health = 100;
+                    } else if (data.value <= data.critical) {
+                        health = 50 + 50 * (data.critical - data.value) / (data.critical - data.target);
+                    } else {
+                        health = Math.max(0, 50 * (100 - data.value) / (100 - data.critical));
+                    }
+                } else {
+                    if (data.value >= data.target) {
+                        health = 100;
+                    } else if (data.value >= data.critical) {
+                        health = 50 + 50 * (data.value - data.critical) / (data.target - data.critical);
+                    } else {
+                        health = Math.max(0, 50 * data.value / data.critical);
+                    }
+                }
+                
+                return Math.round(health);
+            });
 
             if (radarChart) {
                 radarChart.destroy();
@@ -1053,89 +1636,41 @@
 
             radarChart = new Chart(ctx, {
                 type: 'radar',
-                data: data,
+                data: {
+                    labels: ['AAGI', 'SAR', 'ABU', 'FGS', 'DTF', 'TR', 'FQTS'],
+                    datasets: [{
+                        label: 'Health Score',
+                        data: healthScores,
+                        fill: true,
+                        backgroundColor: 'rgba(26, 58, 75, 0.2)',
+                        borderColor: '#1a3a4b',
+                        pointBackgroundColor: '#1a3a4b',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#1a3a4b',
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
                     scales: {
                         r: {
                             beginAtZero: true,
                             max: 100,
                             ticks: {
                                 stepSize: 20
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 12,
+                                    weight: '600'
+                                }
                             }
                         }
                     },
                     plugins: {
                         legend: {
-                            display: currentMode === 'guided'
-                        }
-                    }
-                }
-            });
-        }
-
-        function updateTrendChart() {
-            const ctx = document.getElementById('trendChart').getContext('2d');
-            
-            if (snapshots.length === 0) {
-                if (trendChart) {
-                    trendChart.destroy();
-                    trendChart = null;
-                }
-                return;
-            }
-
-            const datasets = [];
-            const metricKeys = ['sar', 'aagi', 'abu', 'fgs', 'dtf', 'tr', 'fqts'];
-            const colors = {
-                sar: '#dc2626',
-                aagi: '#d97706',
-                abu: '#059669',
-                fgs: '#7c3aed',
-                dtf: '#2563eb',
-                tr: '#e11d48',
-                fqts: '#0891b2'
-            };
-
-            metricKeys.forEach(key => {
-                const data = snapshots.map(s => s.metrics[key]?.value || null);
-                if (data.some(v => v !== null)) {
-                    datasets.push({
-                        label: key.toUpperCase(),
-                        data: data,
-                        borderColor: colors[key],
-                        backgroundColor: colors[key] + '20',
-                        tension: 0.3
-                    });
-                }
-            });
-
-            const data = {
-                labels: snapshots.map(s => new Date(s.timestamp).toLocaleDateString()),
-                datasets: datasets
-            };
-
-            if (trendChart) {
-                trendChart.destroy();
-            }
-
-            trendChart = new Chart(ctx, {
-                type: 'line',
-                data: data,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'bottom'
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100
+                            display: false
                         }
                     }
                 }
@@ -1146,227 +1681,118 @@
             const container = document.getElementById('insights-container');
             const insights = [];
 
-            // Check all 19 insight rules
-            const sar = metrics.sar.value;
             const aagi = metrics.aagi.value;
+            const sar = metrics.sar.value;
             const abu = metrics.abu.value;
             const fgs = metrics.fgs.value;
             const dtf = metrics.dtf.value;
             const tr = metrics.tr.value;
             const fqts = metrics.fqts.value;
 
-            // Rule 1: SAR high & TR high
             if (sar >= 14 && tr >= 6) {
                 insights.push({
-                    title: 'Trust Deficit Pattern',
+                    title: 'Trust Deficit Pattern Detected',
                     values: `SAR: ${sar}%, TR: ${tr}%`,
-                    impact: 'Delegated authority being undermined by reversals',
-                    action: 'Write explicit delegation criteria and freeze reversals for 14 days'
+                    impact: 'You\'re granting authority on paper, withdrawing it in practice. Systematic reversals train teams to seek approval regardless of formal bands. This isn\'t delegation—it\'s authority theatre.',
+                    action: 'Write explicit delegation criteria and freeze reversals for 14 days. Track outcomes.'
                 });
             }
 
-            // Rule 2: FQTS high for consecutive periods
             if (fqts > 30 && snapshots.length > 0) {
                 const lastSnapshot = snapshots[snapshots.length - 1];
                 if (lastSnapshot.metrics.fqts?.value > 30) {
                     insights.push({
-                        title: 'Persistent Queue Bottleneck',
-                        values: `FQTS: ${fqts}% (2+ periods)`,
-                        impact: 'Chronic founder response delays blocking execution',
-                        action: 'Drop approval bands by one level for 30 days'
+                        title: 'Persistent Queue Bottleneck (2+ Periods)',
+                        values: `FQTS: ${fqts}%`,
+                        impact: 'Chronic founder response delays compound across organisation. Execution velocity constrained by single-point approval.',
+                        action: 'Drop approval bands by one level for 30 days. Measure throughput changes.'
                     });
                 }
             }
 
-            // Rule 3: FQTS high & FGS high
             if (fqts > 30 && fgs > 18) {
                 insights.push({
                     title: 'Founder Gating Crisis',
                     values: `FQTS: ${fqts}%, FGS: ${fgs}%`,
-                    impact: 'Meeting and decision bottlenecks compound delays',
-                    action: 'Route through ops triage; auto-approve sub-£5k with sampling'
+                    impact: 'Meeting and decision bottlenecks compound latency. You\'re the organisational constraint, not the strategic leader.',
+                    action: 'Route through ops triage; auto-approve sub-£5k with sampling audit. Immediate implementation.'
                 });
             }
 
-            // Rule 4: DTF low & SAR high
             if (dtf < 56 && sar >= 14) {
                 insights.push({
-                    title: 'Over-Centralisation',
+                    title: 'Systematic Over-Centralisation',
                     values: `DTF: ${dtf}%, SAR: ${sar}%`,
-                    impact: 'Organisation capability suppressed by approval dependency',
-                    action: 'Reassign top 5 recurring decisions to leads with SLAs'
+                    impact: 'Organisational capability exists but is suppressed by approval dependency. Team throughput artificially constrained.',
+                    action: 'Reassign top 5 recurring decisions to leads with SLAs. Track resolution rates weekly.'
                 });
             }
 
-            // Rule 5: AAGI high & FGS high
             if (aagi > 5 && fgs > 18) {
                 insights.push({
-                    title: 'Authority-Accountability Mismatch',
+                    title: 'Authority-Accountability Structural Failure',
                     values: `AAGI: ${aagi}, FGS: ${fgs}%`,
-                    impact: 'OKR owners cannot execute without founder gates',
-                    action: 'Realign OKR decision rights within 7 days'
+                    impact: 'OKR owners cannot execute outcomes they\'re measured on. Governance framework is fundamentally broken, not misaligned.',
+                    action: 'Zero-base all OKR decision rights within 7 days. This is structural, not tactical.'
                 });
             }
 
-            // Rule 6: ABU low & TR high
             if (abu < 64 && tr > 6) {
                 insights.push({
                     title: 'Band Clarity Crisis',
                     values: `ABU: ${abu}%, TR: ${tr}%`,
-                    impact: 'Unclear bands driving elevation and reversals',
-                    action: 'Republish bands; require exception analysis pre-reversal'
+                    impact: 'Unclear bands driving elevation and reversals. Teams lack confidence in what they can decide independently.',
+                    action: 'Republish bands with specific examples; require written exception analysis pre-reversal.'
                 });
             }
 
-            // Rule 7: SAR improving but AAGI flat
             if (snapshots.length > 0) {
                 const lastSAR = snapshots[snapshots.length - 1].metrics.sar?.value;
                 const lastAAGI = snapshots[snapshots.length - 1].metrics.aagi?.value;
                 if (lastSAR && sar < lastSAR && aagi === lastAAGI) {
                     insights.push({
-                        title: 'Structural Gap Persists',
-                        values: `SAR improving, AAGI: ${aagi}`,
-                        impact: 'Approvals improving but structure unchanged',
-                        action: 'Convert 3 OKR owners into decision owners'
+                        title: 'Tactical Improvement, Structural Gap Persists',
+                        values: `SAR declining, AAGI unchanged: ${aagi}`,
+                        impact: 'Approvals improving but governance structure remains misaligned. Treating symptoms, not root cause.',
+                        action: 'Convert 3 OKR owners into decision owners with matching authority bands.'
                     });
                 }
             }
 
-            // Rule 8: ABU healthy but TR high
             if (abu >= 80 && tr > 6) {
                 insights.push({
                     title: 'Inconsistent Override Pattern',
                     values: `ABU: ${abu}%, TR: ${tr}%`,
-                    impact: 'Good band compliance undermined by reversals',
-                    action: 'Enforce "no silent reversals" policy'
+                    impact: 'Strong band compliance undermined by frequent reversals. Sends mixed signals about genuine delegation.',
+                    action: 'Enforce "no silent reversals" policy. Require documented reasoning and coaching session.'
                 });
             }
 
-            // Rule 9: DTF rising while SAR high
             if (dtf > 60 && sar >= 14) {
                 insights.push({
-                    title: 'Latent Capacity Available',
+                    title: 'Latent Capability Underutilised',
                     values: `DTF: ${dtf}%, SAR: ${sar}%`,
-                    impact: 'Non-founder capability ready but underutilised',
-                    action: 'Accelerate authority migration to proven performers'
+                    impact: 'Non-founder capability proven but artificially gated by shadow approvals. Organisational capacity exists but is suppressed.',
+                    action: 'Accelerate authority migration to proven performers. They\'re ready; you\'re the constraint.'
                 });
             }
 
-            // Rule 10: FGS critical
             if (fgs > 25) {
                 insights.push({
                     title: 'Meeting Bottleneck Critical',
                     values: `FGS: ${fgs}%`,
-                    impact: 'Quarter of meetings blocked awaiting founder',
-                    action: 'Appoint deputy decision maker closer to work'
+                    impact: 'Quarter of meetings blocked awaiting founder decision. Execution velocity constrained at systematic level.',
+                    action: 'Appoint deputy decision maker closer to operational work. Immediate delegation required.'
                 });
             }
 
-            // Rule 11: FQTS rising & FGS stable
-            if (snapshots.length > 0) {
-                const lastFQTS = snapshots[snapshots.length - 1].metrics.fqts?.value;
-                if (lastFQTS && fqts > lastFQTS && fgs < 20) {
-                    insights.push({
-                        title: 'Response Time Degradation',
-                        values: `FQTS: ${fqts}% (rising)`,
-                        impact: 'Founder response times slipping despite stable gates',
-                        action: 'Batch decisions; calendar decision windows'
-                    });
-                }
-            }
-
-            // Rule 12: AAGI critical
-            if (aagi > 10) {
-                insights.push({
-                    title: 'Authority Structure Failure',
-                    values: `AAGI: ${aagi}`,
-                    impact: 'Systemic mismatch between ownership and authority',
-                    action: 'Zero-base decision rights this month'
-                });
-            }
-
-            // Rule 13: TR critical
-            if (tr > 7) {
-                insights.push({
-                    title: 'Trust Breakdown',
-                    values: `TR: ${tr}%`,
-                    impact: 'Excessive reversals destroying delegation confidence',
-                    action: 'Pause scope; coach criteria; reinstate after 2 clean weeks'
-                });
-            }
-
-            // Rule 14: DTF critical
-            if (dtf < 42) {
-                insights.push({
-                    title: 'Organisational Paralysis',
-                    values: `DTF: ${dtf}%`,
-                    impact: 'Majority decisions require founder involvement',
-                    action: 'Run 48-hour absence test; publish escalation baseline'
-                });
-            }
-
-            // Rule 15: ABU critical
-            if (abu < 48) {
-                insights.push({
-                    title: 'Chronic Elevation Pattern',
-                    values: `ABU: ${abu}%`,
-                    impact: 'Majority decisions escalated beyond intended level',
-                    action: 'Restore bands; require uplift justification for 30 days'
-                });
-            }
-
-            // Rule 16: SAR high & FQTS high
-            if (sar > 14 && fqts > 28) {
-                insights.push({
-                    title: 'Compounded Queueing',
-                    values: `SAR: ${sar}%, FQTS: ${fqts}%`,
-                    impact: 'Approval volume and response time create double bottleneck',
-                    action: 'Auto-approve sub-£5k recurring items'
-                });
-            }
-
-            // Rule 17: ABU healthy, FGS low, FQTS high
-            if (abu >= 80 && fgs <= 15 && fqts > 24) {
-                insights.push({
-                    title: 'Pure Response Bottleneck',
-                    values: `ABU: ${abu}%, FQTS: ${fqts}%`,
-                    impact: 'Good structure undermined by slow founder response',
-                    action: 'Set 2 daily decision windows + deputy fallback'
-                });
-            }
-
-            // Rule 18: SAR improving while TR increasing
-            if (snapshots.length > 0) {
-                const lastSAR = snapshots[snapshots.length - 1].metrics.sar?.value;
-                const lastTR = snapshots[snapshots.length - 1].metrics.tr?.value;
-                if (lastSAR && lastTR && sar < lastSAR && tr > lastTR) {
-                    insights.push({
-                        title: 'Second-Guessing Increase',
-                        values: `SAR↓, TR: ${tr}%↑`,
-                        impact: 'More delegation but increasing reversals',
-                        action: 'Tighten acceptance criteria; freeze reversals 14 days'
-                    });
-                }
-            }
-
-            // Rule 19: DTF healthy & SAR healthy
-            if (dtf >= 70 && sar <= 10) {
-                insights.push({
-                    title: 'Delegation Success Pattern',
-                    values: `DTF: ${dtf}%, SAR: ${sar}%`,
-                    impact: 'Organisation operating with healthy autonomy',
-                    action: 'Extend criteria to next decision tier; publish "what good looks like"'
-                });
-            }
-
-            // Display top 5 insights
             container.innerHTML = '';
             insights.slice(0, 5).forEach(insight => {
                 const div = document.createElement('div');
                 div.className = 'insight-item';
                 div.innerHTML = `
                     <h4>${insight.title}</h4>
-                    <div>Values: ${insight.values}</div>
+                    <div style="margin: 8px 0; color: #6b7280;">Measured: ${insight.values}</div>
                     <div class="insight-impact">Impact: ${insight.impact}</div>
                     <div class="insight-action">→ Action: ${insight.action}</div>
                 `;
@@ -1374,74 +1800,323 @@
             });
 
             if (insights.length === 0 && Object.values(metrics).some(m => m.value !== null)) {
-                container.innerHTML = '<div class="insight-item"><p>Enter more metrics to generate contextual insights</p></div>';
-            }
-        }
-
-        function updateMode() {
-            const consultantNotes = document.getElementById('consultant-notes');
-            if (currentMode === 'guided') {
-                consultantNotes.classList.add('visible');
-                // Show benchmarks in tooltips
-                document.querySelectorAll('.tooltip').forEach(tooltip => {
-                    const text = tooltip.textContent;
-                    if (!text.includes('Benchmark:')) {
-                        tooltip.textContent += ' | Benchmark: Industry median';
-                    }
-                });
-            } else {
-                consultantNotes.classList.remove('visible');
-                // Hide benchmarks
-                document.querySelectorAll('.tooltip').forEach(tooltip => {
-                    tooltip.textContent = tooltip.textContent.replace(' | Benchmark: Industry median', '');
-                });
+                container.innerHTML = '<div class="insight-item"><p>Your metrics don\'t trigger priority alerts. Continue monitoring and re-measure after implementing changes. Authority gaps often emerge under stress conditions.</p></div>';
+            } else if (insights.length === 0) {
+                container.innerHTML = '<div class="insight-item"><p>Enter measurement data to generate contextual insights about authority gaps and systematic bottlenecks.</p></div>';
             }
         }
 
         function saveSnapshot() {
-            if (Object.values(metrics).every(m => m.value === null)) {
-                alert('Please enter at least one metric before saving a snapshot');
+            const validMetrics = Object.values(metrics).filter(m => m.value !== null).length;
+            if (validMetrics === 0) {
+                alert('Please enter at least one metric before saving a snapshot.');
                 return;
             }
 
             const snapshot = {
+                date: new Date().toISOString(),
                 metrics: JSON.parse(JSON.stringify(metrics)),
-                timestamp: new Date().toISOString(),
-                notes: document.getElementById('consultant-notes').value
+                overallScore: calculateOverallScoreValue()
             };
-
             snapshots.push(snapshot);
             saveToStorage();
-            updateCharts();
-            alert('Snapshot saved successfully');
+            
+            const dateStr = new Date().toLocaleDateString('en-GB', { 
+                day: 'numeric', 
+                month: 'short', 
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            alert(`Snapshot saved: ${dateStr}\n\nTotal snapshots: ${snapshots.length}\n\nUse "Compare Snapshots" button to view trends.`);
+        }
+
+        function toggleSnapshotView() {
+            const panel = document.getElementById('snapshot-panel');
+            if (snapshots.length === 0) {
+                alert('No snapshots saved yet. Save your first snapshot to enable comparison.');
+                return;
+            }
+            
+            if (panel.style.display === 'none') {
+                panel.style.display = 'block';
+                renderSnapshotComparison();
+                panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                panel.style.display = 'none';
+            }
+        }
+
+        function renderSnapshotComparison() {
+            const listContainer = document.getElementById('snapshot-list');
+            const comparisonContainer = document.getElementById('comparison-view');
+            
+            // Render snapshot list
+            let listHTML = '<div style="margin-bottom: 20px;">';
+            listHTML += '<h3 style="margin-bottom: 15px; color: var(--primary);">Saved Snapshots</h3>';
+            listHTML += '<div style="display: grid; gap: 10px;">';
+            
+            snapshots.forEach((snapshot, index) => {
+                const date = new Date(snapshot.date);
+                const dateStr = date.toLocaleDateString('en-GB', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                listHTML += `
+                    <div style="background: var(--subtle-bg); padding: 12px 15px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border);">
+                        <div>
+                            <strong>Snapshot ${index + 1}:</strong> ${dateStr}
+                            <span style="margin-left: 15px; color: var(--primary); font-weight: 600;">Score: ${snapshot.overallScore}</span>
+                        </div>
+                        <button onclick="deleteSnapshot(${index})" style="background: var(--danger); color: white; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: 600;">Delete</button>
+                    </div>
+                `;
+            });
+            
+            listHTML += '</div></div>';
+            listContainer.innerHTML = listHTML;
+            
+            // Render comparison if we have 2+ snapshots
+            if (snapshots.length >= 2) {
+                renderSnapshotTrends(comparisonContainer);
+            } else {
+                comparisonContainer.innerHTML = '<p style="color: #6b7280; font-style: italic;">Save at least 2 snapshots to view trend comparisons.</p>';
+            }
+        }
+
+        function renderSnapshotTrends(container) {
+            const latest = snapshots[snapshots.length - 1];
+            const previous = snapshots[snapshots.length - 2];
+            
+            const latestDate = new Date(latest.date).toLocaleDateString('en-GB', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+            });
+            const previousDate = new Date(previous.date).toLocaleDateString('en-GB', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+            });
+            
+            let html = '<div style="background: white; border: 1px solid var(--border); border-radius: 8px; padding: 20px;">';
+            html += '<h3 style="margin-bottom: 15px; color: var(--primary);">Trend Analysis: Latest vs Previous</h3>';
+            html += `<p style="margin-bottom: 20px; color: #6b7280;">Comparing ${previousDate} → ${latestDate}</p>`;
+            
+            html += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">';
+            
+            // Overall Score Comparison
+            const scoreDelta = latest.overallScore - previous.overallScore;
+            const scoreArrow = scoreDelta > 0 ? '↑' : scoreDelta < 0 ? '↓' : '→';
+            const scoreColor = scoreDelta > 0 ? 'var(--success)' : scoreDelta < 0 ? 'var(--danger)' : '#6b7280';
+            
+            html += `
+                <div style="background: var(--subtle-bg); padding: 15px; border-radius: 6px; text-align: center;">
+                    <div style="font-size: 0.85rem; color: #6b7280; margin-bottom: 5px;">Overall Score</div>
+                    <div style="font-size: 1.8rem; font-weight: 700; color: ${scoreColor};">
+                        ${scoreArrow} ${Math.abs(scoreDelta)}
+                    </div>
+                    <div style="font-size: 0.9rem; margin-top: 5px;">
+                        ${previous.overallScore} → ${latest.overallScore}
+                    </div>
+                </div>
+            `;
+            
+            // Individual Metric Comparisons
+            ['aagi', 'sar', 'abu', 'fgs', 'dtf', 'tr', 'fqts'].forEach(key => {
+                const prevValue = previous.metrics[key]?.value;
+                const latestValue = latest.metrics[key]?.value;
+                
+                if (prevValue !== null && latestValue !== null) {
+                    let delta = latestValue - prevValue;
+                    let arrow, color;
+                    
+                    // For "lower is better" metrics (SAR, TR, FQTS, FGS, AAGI)
+                    if (['sar', 'tr', 'fqts', 'fgs', 'aagi'].includes(key)) {
+                        if (delta < 0) {
+                            arrow = '↓';
+                            color = 'var(--success)'; // Improvement
+                        } else if (delta > 0) {
+                            arrow = '↑';
+                            color = 'var(--danger)'; // Worsening
+                        } else {
+                            arrow = '→';
+                            color = '#6b7280';
+                        }
+                    } else {
+                        // For "higher is better" metrics (ABU, DTF)
+                        if (delta > 0) {
+                            arrow = '↑';
+                            color = 'var(--success)';
+                        } else if (delta < 0) {
+                            arrow = '↓';
+                            color = 'var(--danger)';
+                        } else {
+                            arrow = '→';
+                            color = '#6b7280';
+                        }
+                    }
+                    
+                    const displayValue = key === 'aagi' ? Math.abs(delta).toFixed(0) : Math.abs(delta).toFixed(1);
+                    const unit = key === 'aagi' ? '' : '%';
+                    
+                    html += `
+                        <div style="background: var(--subtle-bg); padding: 15px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 0.85rem; color: #6b7280; margin-bottom: 5px; font-weight: 600;">${key.toUpperCase()}</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: ${color};">
+                                ${arrow} ${displayValue}${unit}
+                            </div>
+                            <div style="font-size: 0.9rem; margin-top: 5px;">
+                                ${prevValue}${unit} → ${latestValue}${unit}
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            html += '</div>';
+            
+            // Interpretation
+            html += '<div style="margin-top: 20px; padding: 15px; background: #f8fafc; border-left: 4px solid var(--secondary); border-radius: 5px;">';
+            html += '<strong style="color: var(--primary);">Interpretation:</strong> ';
+            
+            if (scoreDelta > 10) {
+                html += 'Significant improvement in authority gap reduction. Delegation interventions showing measurable impact.';
+            } else if (scoreDelta > 0) {
+                html += 'Modest improvement. Continue current interventions and reassess in 2-4 weeks.';
+            } else if (scoreDelta === 0) {
+                html += 'Score stable. Review whether interventions are being implemented consistently.';
+            } else if (scoreDelta > -10) {
+                html += 'Slight regression. Common during operational stress periods. Reassess intervention effectiveness.';
+            } else {
+                html += 'Significant regression. Investigate whether new bottlenecks emerged or delegation reversed.';
+            }
+            
+            html += '</div>';
+            html += '</div>';
+            
+            container.innerHTML = html;
+        }
+
+        function deleteSnapshot(index) {
+            if (!confirm(`Delete snapshot from ${new Date(snapshots[index].date).toLocaleDateString('en-GB')}?`)) {
+                return;
+            }
+            
+            snapshots.splice(index, 1);
+            saveToStorage();
+            
+            if (snapshots.length === 0) {
+                document.getElementById('snapshot-panel').style.display = 'none';
+            } else {
+                renderSnapshotComparison();
+            }
+        }
+
+        function calculateOverallScoreValue() {
+            const validMetrics = Object.entries(metrics).filter(([key, data]) => data.value !== null);
+            if (validMetrics.length === 0) return 0;
+
+            let totalHealth = 0;
+            validMetrics.forEach(([key, data]) => {
+                let health = 0;
+                
+                if (key === 'aagi') {
+                    health = data.value === 0 ? 100 : (data.value <= 5 ? 50 : 0);
+                } else if (['sar', 'fgs', 'tr', 'fqts'].includes(key)) {
+                    if (data.value <= data.target) {
+                        health = 100;
+                    } else if (data.value <= data.critical) {
+                        health = 50 + 50 * (data.critical - data.value) / (data.critical - data.target);
+                    } else {
+                        health = Math.max(0, 50 * (100 - data.value) / (100 - data.critical));
+                    }
+                } else {
+                    if (data.value >= data.target) {
+                        health = 100;
+                    } else if (data.value >= data.critical) {
+                        health = 50 + 50 * (data.value - data.critical) / (data.target - data.critical);
+                    } else {
+                        health = Math.max(0, 50 * data.value / data.critical);
+                    }
+                }
+                
+                totalHealth += health;
+            });
+
+            return Math.round(totalHealth / validMetrics.length);
+        }
+
+        function exportData() {
+            const exportObj = {
+                generated: new Date().toISOString(),
+                overall_score: calculateOverallScoreValue(),
+                metrics: metrics,
+                snapshots: snapshots
+            };
+            
+            const dataStr = JSON.stringify(exportObj, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `authority-gap-diagnostic-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function showResetModal() {
+            document.getElementById('reset-modal').classList.add('show');
+            document.getElementById('reset-confirmation').value = '';
+        }
+
+        function closeResetModal() {
+            document.getElementById('reset-modal').classList.remove('show');
+        }
+
+        function confirmReset() {
+            const confirmation = document.getElementById('reset-confirmation').value;
+            if (confirmation !== 'DELETE') {
+                alert('Please type DELETE exactly to confirm reset.');
+                return;
+            }
+
+            Object.keys(metrics).forEach(key => {
+                metrics[key].value = null;
+            });
+
+            snapshots = [];
+
+            document.querySelectorAll('input[type="number"]').forEach(input => {
+                input.value = '';
+                input.classList.remove('invalid');
+            });
+
+            document.querySelectorAll('.validation-message').forEach(el => {
+                el.classList.remove('show');
+            });
+
+            localStorage.removeItem('authorityGapData');
+            
+            closeResetModal();
+            updateDashboard();
+            updateProgressIndicator();
+            highlightNextMetric();
+            
+            if (radarChart) {
+                radarChart.destroy();
+                radarChart = null;
+            }
+
+            alert('All data has been reset');
         }
 
         function downloadPDF() {
             window.print();
-        }
-
-        function bookConsultation() {
-            const email = prompt('Enter your email to book a consultation:');
-            if (email) {
-                alert(`Thank you! We'll contact you at ${email} to schedule your Authority Gap consultation.`);
-                // In production, this would send data to your server
-            }
-        }
-
-        function emailResults() {
-            const email = prompt('Enter your email to receive your results:');
-            if (email) {
-                const results = {
-                    metrics,
-                    overallScore: document.getElementById('overall-score').textContent,
-                    insights: Array.from(document.querySelectorAll('.insight-item')).map(el => el.textContent),
-                    timestamp: new Date().toISOString()
-                };
-                
-                alert(`Results will be sent to ${email}. Check your inbox shortly.`);
-                // In production, this would send the results to your server
-                console.log('Results to email:', results);
-            }
         }
     </script>
 </body>
