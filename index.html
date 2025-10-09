@@ -755,7 +755,7 @@
                     <strong style="color: var(--primary);">📊 Framework basis:</strong> Strategic consulting practice with UK SMEs
                 </span>
                 <span style="display: flex; align-items: center; gap: 8px;">
-                    <strong style="color: var(--primary);">⚡ Completion time:</strong> <5 minutes with tracking data
+                    <strong style="color: var(--primary);">⚡ Completion time:</strong> &lt;5 minutes with tracking data
                 </span>
             </div>
         </div>
@@ -765,7 +765,11 @@
             <div class="header-content">
                 <div class="brand">
                     <h1>Strategy Hub</h1>
-                    <div class="tagline">Strategic Consulting | Enterprise Value Protection</div>
+                    <div class="tagline">
+                        Strategic Consulting | Enterprise Value Protection |
+                        <a href="https://www.strategyhub.co.uk/authority-gap-seven-metrics-uk-sme-succession-planning/"
+                           style="color: white; text-decoration: underline;">Read Full Framework →</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -790,6 +794,192 @@
                 
                 <p><strong>After measurement:</strong> Address your worst 2-3 metrics first. Review "Live Contextual Insights" for specific interventions. Typical recovery timeline: 3-6 months to reduce founder dependency by 20+ points. Markets price this gap whether you measure it or not.</p>
             </div>
+        </div>
+
+        <!-- Context Panel -->
+        <div class="panel" style="background: #f8fafc; border-left: 4px solid #059669;">
+            <h2>Decision Context (Not Scored)</h2>
+            <p style="margin-bottom: 15px; line-height: 1.7;">
+                Before measuring the seven authority metrics, assess your current operational load. 
+                This context helps interpret whether authority gaps stem from structural issues 
+                or temporary operational demands.
+            </p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px;">
+                <div class="input-field">
+                    <label style="font-size: 0.95rem; color: var(--primary); font-weight: 600;">Operational hours/week</label>
+                    <input type="number" id="operational-hours" placeholder="e.g. 35" min="0" max="80" style="padding: 10px 12px; border: 1px solid var(--border); border-radius: 5px; font-size: 0.95rem;">
+                    <div style="font-size: 0.8rem; color: #6b7280; margin-top: 5px;">Firefighting, approvals, reactive problem-solving</div>
+                </div>
+                <div class="input-field">
+                    <label style="font-size: 0.95rem; color: var(--primary); font-weight: 600;">Strategic hours/week</label>
+                    <input type="number" id="strategic-hours" placeholder="e.g. 15" min="0" max="80" style="padding: 10px 12px; border: 1px solid var(--border); border-radius: 5px; font-size: 0.95rem;">
+                    <div style="font-size: 0.8rem; color: #6b7280; margin-top: 5px;">Planning, team development, business development</div>
+                </div>
+            </div>
+            <div id="hours-split-message" style="padding: 15px; background: white; border-radius: 5px; border: 1px solid var(--border); font-weight: 600; min-height: 60px; display: flex; align-items: center;"></div>
+        </div>
+
+        <!-- Calculation Methodology Panel -->
+        <div class="panel" style="background: #fff7ed; border-left: 4px solid #f59e0b; margin-bottom: 25px;">
+            <details>
+                <summary style="cursor: pointer; font-weight: 600; font-size: 1.1rem; color: var(--primary); margin-bottom: 10px;">
+                    📊 How to Calculate Your Metrics (Click to expand)
+                </summary>
+                <div style="margin-top: 15px;">
+                    <p style="margin-bottom: 15px; line-height: 1.7;">
+                        The seven metrics require one week minimum of decision tracking. 
+                        Without baseline data, scores are directional only and may underestimate 
+                        founder dependency during operational stress periods.
+                    </p>
+                    
+                    <h3 style="font-size: 1.1rem; color: var(--primary); margin: 20px 0 10px 0;">
+                        Data Collection Protocol
+                    </h3>
+                    
+                    <!-- AAGI -->
+                    <div style="background: white; padding: 15px; border-radius: 5px; margin-bottom: 15px; border: 1px solid var(--border);">
+                        <h4 style="color: var(--secondary); margin-bottom: 8px;">
+                            Authority-Accountability Gap Index (AAGI)
+                        </h4>
+                        <p style="margin-bottom: 8px; line-height: 1.6;">
+                            <strong>What to track:</strong> List all active OKRs/strategic objectives where someone is "accountable." 
+                            For each, note whether they can make the key decisions required to deliver that outcome without escalation.
+                        </p>
+                        <p style="margin-bottom: 8px; line-height: 1.6;">
+                            <strong>Formula:</strong> Count of OKRs where owner lacks matching decision authority
+                        </p>
+                        <p style="background: #fffbeb; padding: 10px; border-radius: 4px; font-size: 0.9rem; line-height: 1.6;">
+                            <strong>Example:</strong> James owns "Reduce churn 15%" but cannot approve service credits &gt;£500. 
+                            Lisa owns "Launch product by March" but lacks hiring authority. Marcus owns "£2.5m revenue" 
+                            but pricing needs founder approval. That's AAGI = 3.
+                        </p>
+                    </div>
+
+                    <!-- SAR -->
+                    <div style="background: white; padding: 15px; border-radius: 5px; margin-bottom: 15px; border: 1px solid var(--border);">
+                        <h4 style="color: var(--secondary); margin-bottom: 8px;">
+                            Shadow Approval Rate (SAR)
+                        </h4>
+                        <p style="margin-bottom: 8px; line-height: 1.6;">
+                            <strong>What to track:</strong> For one week, note every decision you approve. 
+                            Separate those within published authority bands (e.g., Sarah has £2k credit authority, 
+                            seeks approval for £800 credit) from those requiring escalation by policy.
+                        </p>
+                        <p style="margin-bottom: 8px; line-height: 1.6;">
+                            <strong>Formula:</strong> (Decisions you approved within delegated bands ÷ Total in-band decisions) × 100
+                        </p>
+                        <p style="background: #fffbeb; padding: 10px; border-radius: 4px; font-size: 0.9rem; line-height: 1.6;">
+                            <strong>Example:</strong> Sarah processed 24 credit requests. On 8 occasions (33% SAR), 
+                            she sought approval for credits below her £2k threshold. Authority exists on paper but not in practice.
+                        </p>
+                    </div>
+
+                    <!-- ABU -->
+                    <div style="background: white; padding: 15px; border-radius: 5px; margin-bottom: 15px; border: 1px solid var(--border);">
+                        <h4 style="color: var(--secondary); margin-bottom: 8px;">
+                            Authority Band Utilisation (ABU)
+                        </h4>
+                        <p style="margin-bottom: 8px; line-height: 1.6;">
+                            <strong>What to track:</strong> Requires published authority bands (e.g., Ops Manager: £0-15k, 
+                            FD: £15k-50k, CEO: &gt;£50k). Track all decisions for two weeks, note at which level each was made.
+                        </p>
+                        <p style="margin-bottom: 8px; line-height: 1.6;">
+                            <strong>Formula:</strong> (Decisions made at correct level ÷ Total decisions) × 100
+                        </p>
+                        <p style="background: #fffbeb; padding: 10px; border-radius: 4px; font-size: 0.9rem; line-height: 1.6;">
+                            <strong>Example:</strong> 150 supplier decisions: 72 under £15k approved by Ops (should be 90), 
+                            30 at £15-50k approved by FD (should be 45), 15 above £50k correctly reached you. 
+                            117÷150 = 78% ABU. The 33 incorrectly escalated decisions indicate band circumvention.
+                        </p>
+                    </div>
+
+                    <!-- FGS -->
+                    <div style="background: white; padding: 15px; border-radius: 5px; margin-bottom: 15px; border: 1px solid var(--border);">
+                        <h4 style="color: var(--secondary); margin-bottom: 8px;">
+                            Founder Gate Share (FGS)
+                        </h4>
+                        <p style="margin-bottom: 8px; line-height: 1.6;">
+                            <strong>What to track:</strong> For two weeks, note all operational meetings (exclude 1:1s). 
+                            Mark which ones could not close/make a decision without your direct input.
+                        </p>
+                        <p style="margin-bottom: 8px; line-height: 1.6;">
+                            <strong>Formula:</strong> (Meetings requiring founder decision to close ÷ Total operational meetings) × 100
+                        </p>
+                        <p style="background: #fffbeb; padding: 10px; border-radius: 4px; font-size: 0.9rem; line-height: 1.6;">
+                            <strong>Example:</strong> 60 meetings tracked. 18 required your decision to proceed: 
+                            6 sales meetings (discount approvals), 5 escalations, 3 pricing decisions, 2 contracts, 
+                            2 product priorities. 18÷60 = 30% FGS. Your calendar is the execution constraint.
+                        </p>
+                    </div>
+
+                    <!-- DTF -->
+                    <div style="background: white; padding: 15px; border-radius: 5px; margin-bottom: 15px; border: 1px solid var(--border);">
+                        <h4 style="color: var(--secondary); margin-bottom: 8px;">
+                            Decision Throughput without Founder (DTF)
+                        </h4>
+                        <p style="margin-bottom: 8px; line-height: 1.6;">
+                            <strong>What to track:</strong> Define SLAs for key decision types (e.g., supplier approval: 3 days, 
+                            hiring: 5 days, client issues: 24 hours). Track how many are resolved by non-founders within SLA.
+                        </p>
+                        <p style="margin-bottom: 8px; line-height: 1.6;">
+                            <strong>Formula:</strong> (Non-founder decisions meeting SLA ÷ Total decisions tracked) × 100
+                        </p>
+                        <p style="background: #fffbeb; padding: 10px; border-radius: 4px; font-size: 0.9rem; line-height: 1.6;">
+                            <strong>Example:</strong> 120 decisions across 4 categories. 93 met SLA when handled by team, 
+                            27 missed SLA awaiting you. 93÷120 = 78% DTF. The team is capable—your approval is the constraint.
+                        </p>
+                    </div>
+
+                    <!-- TR -->
+                    <div style="background: white; padding: 15px; border-radius: 5px; margin-bottom: 15px; border: 1px solid var(--border);">
+                        <h4 style="color: var(--secondary); margin-bottom: 8px;">
+                            Turnback Ratio (TR)
+                        </h4>
+                        <p style="margin-bottom: 8px; line-height: 1.6;">
+                            <strong>What to track:</strong> Note all decisions your team makes within their delegated authority. 
+                            Count how many you reverse within 7 days of their execution.
+                        </p>
+                        <p style="margin-bottom: 8px; line-height: 1.6;">
+                            <strong>Formula:</strong> (Decisions reversed within 7 days ÷ Total delegated decisions) × 100
+                        </p>
+                        <p style="background: #fffbeb; padding: 10px; border-radius: 4px; font-size: 0.9rem; line-height: 1.6;">
+                            <strong>Example:</strong> 50 decisions made by team within authority. You reversed 3 
+                            (£12k software choice, £8k sponsorship, £1.5k refund)—all within their bands but you 
+                            disagreed with judgment. 3÷50 = 6% TR. This trains pre-approval seeking regardless of formal authority.
+                        </p>
+                    </div>
+
+                    <!-- FQTS -->
+                    <div style="background: white; padding: 15px; border-radius: 5px; margin-bottom: 15px; border: 1px solid var(--border);">
+                        <h4 style="color: var(--secondary); margin-bottom: 8px;">
+                            Founder Queue Time Share (FQTS)
+                        </h4>
+                        <p style="margin-bottom: 8px; line-height: 1.6;">
+                            <strong>What to track:</strong> For 25 recent decisions, measure total time from initiation 
+                            to resolution. Break down time into: (1) team review/prep, (2) awaiting founder, (3) execution.
+                        </p>
+                        <p style="margin-bottom: 8px; line-height: 1.6;">
+                            <strong>Formula:</strong> (Total hours awaiting founder ÷ Total decision hours) × 100
+                        </p>
+                        <p style="background: #fffbeb; padding: 10px; border-radius: 4px; font-size: 0.9rem; line-height: 1.6;">
+                            <strong>Example:</strong> 25 hiring decisions: total 152 days elapsed, 102 days awaiting you. 
+                            102÷152 = 67% FQTS. Two-thirds of hiring latency is candidates waiting for your review. 
+                            Top talent accepts other offers during your delay.
+                        </p>
+                    </div>
+
+                    <div style="background: var(--subtle-bg); padding: 15px; border-radius: 5px; border-left: 4px solid var(--secondary); margin-top: 20px;">
+                        <strong style="color: var(--primary);">Recommended Approach:</strong>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.7;">
+                            <li>Week 1: Track all decisions you make in a simple spreadsheet</li>
+                            <li>Week 2: Track meeting dependencies and team decision latency</li>
+                            <li>Week 3: Analyse patterns and input into this tool</li>
+                            <li>Ongoing: Re-measure monthly to track improvement</li>
+                        </ul>
+                    </div>
+                </div>
+            </details>
         </div>
 
         <!-- Progress Indicator -->
@@ -847,7 +1037,7 @@
                             <span class="metric-badge">SAR</span>
                             <div class="help-icon">
                                 ?
-                                <div class="tooltip">Authority theatre metric. Tracks decisions you've 'delegated' but still approve. SAR >30% = systematic bottleneck. SAR <10% = genuine transfer.</div>
+                                <div class="tooltip">Authority theatre metric. Tracks decisions you've 'delegated' but still approve. SAR &gt;30% = systematic bottleneck. SAR &lt;10% = genuine transfer.</div>
                             </div>
                         </div>
                         <span class="status-chip" id="sar-status"></span>
@@ -881,7 +1071,7 @@
                             <span class="metric-badge">ABU</span>
                             <div class="help-icon">
                                 ?
-                                <div class="tooltip">Decisions made at intended level per published bands. If you haven't published bands, ABU = 0% by definition. Target: >80%</div>
+                                <div class="tooltip">Decisions made at intended level per published bands. If you haven't published bands, ABU = 0% by definition. Target: &gt;80%</div>
                             </div>
                         </div>
                         <span class="status-chip" id="abu-status"></span>
@@ -915,7 +1105,7 @@
                             <span class="metric-badge">FGS</span>
                             <div class="help-icon">
                                 ?
-                                <div class="tooltip">Meetings requiring founder decision to close. FGS >25% indicates you're the organisational bottleneck, not the strategic leader.</div>
+                                <div class="tooltip">Meetings requiring founder decision to close. FGS &gt;25% indicates you're the organisational bottleneck, not the strategic leader.</div>
                             </div>
                         </div>
                         <span class="status-chip" id="fgs-status"></span>
@@ -949,7 +1139,7 @@
                             <span class="metric-badge">DTF</span>
                             <div class="help-icon">
                                 ?
-                                <div class="tooltip">Non-founder decisions resolved within SLAs. DTF <70% means organisational capability is suppressed by approval dependency. Target: >70%</div>
+                                <div class="tooltip">Non-founder decisions resolved within SLAs. DTF &lt;70% means organisational capability is suppressed by approval dependency. Target: &gt;70%</div>
                             </div>
                         </div>
                         <span class="status-chip" id="dtf-status"></span>
@@ -983,7 +1173,7 @@
                             <span class="metric-badge">TR</span>
                             <div class="help-icon">
                                 ?
-                                <div class="tooltip">Delegated decisions reversed within 7 days. TR >5% signals trust deficit. Teams learn to seek approval regardless of formal authority when reversals are frequent.</div>
+                                <div class="tooltip">Delegated decisions reversed within 7 days. TR &gt;5% signals trust deficit. Teams learn to seek approval regardless of formal authority when reversals are frequent.</div>
                             </div>
                         </div>
                         <span class="status-chip" id="tr-status"></span>
@@ -1017,7 +1207,7 @@
                             <span class="metric-badge">FQTS</span>
                             <div class="help-icon">
                                 ?
-                                <div class="tooltip">Decision latency due to awaiting founder. The hidden cost of centralised approval. FQTS >30% means you're the constraint on execution velocity. Target: <20%</div>
+                                <div class="tooltip">Decision latency due to awaiting founder. The hidden cost of centralised approval. FQTS &gt;30% means you're the constraint on execution velocity. Target: &lt;20%</div>
                             </div>
                         </div>
                         <span class="status-chip" id="fqts-status"></span>
@@ -1120,7 +1310,7 @@
                     <strong>Month 1: Deploy Instrumentation</strong> — Dashboard tracking these seven metrics weekly, written criteria for top 10 approval patterns
                 </div>
                 <div class="timeline-item">
-                    <strong>Month 3: Operational Proof</strong> — Week-long absence without operational disruption, SAR <15%, DTF showing consistent growth
+                    <strong>Month 3: Operational Proof</strong> — Week-long absence without operational disruption, SAR &lt;15%, DTF showing consistent growth
                 </div>
             </div>
         </div>
@@ -1137,6 +1327,30 @@
             <h2>Methodology Note</h2>
             <p style="margin-bottom: 12px; line-height: 1.7;">This framework derives from strategic consulting practice with founder-dependent UK SMEs. The seven metrics identify patterns observed when investor interest deteriorates due to key person risk.</p>
             <p style="line-height: 1.7;"><strong style="color: var(--primary);">Data collection minimum:</strong> One week of decision tracking across all seven metrics. Scores without baseline tracking are directional only and may underestimate founder dependency during operational stress periods.</p>
+        </div>
+
+        <!-- Chaos King Symptom Mapping -->
+        <div class="panel" style="background: #f8fafc; border-left: 4px solid var(--accent);">
+            <details>
+                <summary style="cursor: pointer; font-weight: 600; font-size: 1.1rem; color: var(--primary);">
+                    🔗 Chaos King Symptom Mapping (Click to expand)
+                </summary>
+                <div style="margin-top: 15px;">
+                    <h4>Decision Hoarding (Chaos King Symptom 1)</h4>
+                    <ul>
+                        <li>Shadow Approval Rate >30%</li>
+                        <li>Founder Gate Share >25%</li>
+                        <li>Authority Band Utilisation <48%</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+
+        <!-- Cross-Link to Dependency Calculator -->
+        <div class="panel" style="background: #f8fafc; border-left: 4px solid var(--success); text-align: center;">
+            <h3>Calculated Your Operational Health?</h3>
+            <p style="margin: 15px 0;">Now quantify the financial impact with the Founder Dependency Calculator.</p>
+            <a href="https://founder-dependency.vercel.app/" class="btn btn-primary">Calculate Valuation Impact →</a>
         </div>
 
         <!-- Action Panel -->
@@ -1178,18 +1392,18 @@
 
     <script>
         let metrics = {
-            aagi: { value: null, target: 0, critical: 5 },
+            aagi: { value: null, target: 0, critical: 1 },
             sar: { value: null, target: 10, critical: 30 },
             abu: { value: null, target: 80, critical: 48 },
             fgs: { value: null, target: 15, critical: 25 },
             dtf: { value: null, target: 70, critical: 42 },
-            tr: { value: null, target: 3, critical: 7 },
+            tr: { value: null, target: 3, critical: 5 },
             fqts: { value: null, target: 20, critical: 30 }
         };
         let snapshots = [];
         let radarChart = null;
 
-        window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', function() {
             loadFromStorage();
             initializeEventListeners();
             updateDashboard();
@@ -1204,10 +1418,23 @@
                 metrics = data.metrics || metrics;
                 snapshots = data.snapshots || [];
                 
-                Object.keys(metrics).forEach(key => {
+                if (data.contextData) {
+                    const opInput = document.getElementById('operational-hours');
+                    const stratInput = document.getElementById('strategic-hours');
+                    if (opInput && data.contextData.opHours) {
+                        opInput.value = data.contextData.opHours;
+                    }
+                    if (stratInput && data.contextData.stratHours) {
+                        stratInput.value = data.contextData.stratHours;
+                    }
+                    window.contextData = data.contextData;
+                    updateHoursSplit();
+                }
+                
+                Object.keys(metrics).forEach(function(key) {
                     if (metrics[key].value !== null) {
-                        const percentInput = document.getElementById(`${key}-percent`);
-                        const directInput = document.getElementById(`${key}-direct`);
+                        const percentInput = document.getElementById(key + '-percent');
+                        const directInput = document.getElementById(key + '-direct');
                         if (percentInput) percentInput.value = metrics[key].value;
                         if (directInput) directInput.value = metrics[key].value;
                     }
@@ -1217,40 +1444,49 @@
 
         function saveToStorage() {
             localStorage.setItem('authorityGapData', JSON.stringify({
-                metrics,
-                snapshots,
+                metrics: metrics,
+                snapshots: snapshots,
+                contextData: window.contextData,
                 timestamp: new Date().toISOString()
             }));
         }
 
         function initializeEventListeners() {
-            document.querySelectorAll('.metric-header').forEach(header => {
-                header.addEventListener('click', () => {
+            const opHoursInput = document.getElementById('operational-hours');
+            const stratHoursInput = document.getElementById('strategic-hours');
+            
+            if (opHoursInput && stratHoursInput) {
+                opHoursInput.addEventListener('input', updateHoursSplit);
+                stratHoursInput.addEventListener('input', updateHoursSplit);
+            }
+
+            document.querySelectorAll('.metric-header').forEach(function(header) {
+                header.addEventListener('click', function() {
                     const body = header.nextElementSibling;
                     body.classList.toggle('active');
                 });
             });
 
-            ['aagi', 'sar', 'abu', 'fgs', 'dtf', 'tr', 'fqts'].forEach(metric => {
-                const raw1 = document.getElementById(`${metric}-raw1`);
-                const raw2 = document.getElementById(`${metric}-raw2`);
-                const percent = document.getElementById(`${metric}-percent`);
-                const direct = document.getElementById(`${metric}-direct`);
+            ['aagi', 'sar', 'abu', 'fgs', 'dtf', 'tr', 'fqts'].forEach(function(metric) {
+                const raw1 = document.getElementById(metric + '-raw1');
+                const raw2 = document.getElementById(metric + '-raw2');
+                const percent = document.getElementById(metric + '-percent');
+                const direct = document.getElementById(metric + '-direct');
 
                 if (raw1 && raw2) {
-                    raw1.addEventListener('input', () => {
-                        validateInput(raw1, `${metric}-raw1`);
+                    raw1.addEventListener('input', function() {
+                        validateInput(raw1, metric + '-raw1');
                         calculateFromRaw(metric);
                     });
-                    raw2.addEventListener('input', () => {
-                        validateInput(raw2, `${metric}-raw2`);
+                    raw2.addEventListener('input', function() {
+                        validateInput(raw2, metric + '-raw2');
                         calculateFromRaw(metric);
                     });
                 }
 
                 if (percent) {
-                    percent.addEventListener('input', () => {
-                        if (validateInput(percent, `${metric}-percent`) && percent.value) {
+                    percent.addEventListener('input', function() {
+                        if (validateInput(percent, metric + '-percent') && percent.value) {
                             metrics[metric].value = parseFloat(percent.value);
                             if (raw1 && raw2) {
                                 raw1.value = '';
@@ -1266,8 +1502,8 @@
                 }
 
                 if (direct) {
-                    direct.addEventListener('input', () => {
-                        if (validateInput(direct, `${metric}-direct`) && direct.value) {
+                    direct.addEventListener('input', function() {
+                        if (validateInput(direct, metric + '-direct') && direct.value) {
                             metrics[metric].value = parseFloat(direct.value);
                             if (raw1 && raw2) {
                                 raw1.value = '';
@@ -1284,8 +1520,43 @@
             });
         }
 
+        function updateHoursSplit() {
+            const opHours = parseFloat(document.getElementById('operational-hours').value) || 0;
+            const stratHours = parseFloat(document.getElementById('strategic-hours').value) || 0;
+            const total = opHours + stratHours;
+            
+            const messageEl = document.getElementById('hours-split-message');
+            
+            if (total === 0) {
+                messageEl.innerHTML = '<span style="color: #6b7280;">Enter your typical weekly hours above to see split analysis.</span>';
+                messageEl.style.background = 'white';
+                messageEl.style.borderColor = 'var(--border)';
+                return;
+            }
+            
+            const opPercent = Math.round((opHours / total) * 100);
+            const stratPercent = 100 - opPercent;
+            
+            if (opPercent >= 70) {
+                messageEl.innerHTML = '<strong>' + opPercent + '/' + stratPercent + ' split:</strong> <span style="color: var(--danger);">Operational overload detected.</span> Your authority gap metrics likely reflect this constraint. The cycle compounds: you can\'t delegate because you\'re firefighting, and you\'re firefighting because you haven\'t delegated. Target: 30/70 operational/strategic.';
+                messageEl.style.background = '#fee2e2';
+                messageEl.style.borderColor = '#dc2626';
+            } else if (opPercent >= 50) {
+                messageEl.innerHTML = '<strong>' + opPercent + '/' + stratPercent + ' split:</strong> <span style="color: var(--warning);">Operational burden high.</span> As you reduce founder dependency, target 30/70 split. Your metrics will improve as you break the operational cycle.';
+                messageEl.style.background = '#fed7aa';
+                messageEl.style.borderColor = '#f59e0b';
+            } else {
+                messageEl.innerHTML = '<strong>' + opPercent + '/' + stratPercent + ' split:</strong> <span style="color: var(--success);">Healthy strategic focus.</span> Your authority gaps are structural, not capacity-driven. This is good—structural issues have systematic solutions.';
+                messageEl.style.background = '#d1fae5';
+                messageEl.style.borderColor = '#059669';
+            }
+            
+            window.contextData = { opPercent: opPercent, stratPercent: stratPercent, opHours: opHours, stratHours: stratHours };
+            saveToStorage();
+        }
+
         function validateInput(input, fieldId) {
-            const errorEl = document.getElementById(`${fieldId}-error`);
+            const errorEl = document.getElementById(fieldId + '-error');
             const value = parseFloat(input.value);
             
             if (!input.value) {
@@ -1301,14 +1572,13 @@
                 return false;
             }
 
-            if (fieldId.includes('percent') && value > 100) {
+            if (fieldId.indexOf('percent') !== -1 && value > 100) {
                 input.classList.add('invalid');
                 errorEl.textContent = 'Percentage cannot exceed 100%';
                 errorEl.classList.add('show');
                 return false;
             }
 
-            // Logical consistency checks
             const metric = fieldId.split('-')[0];
             if (metric === 'sar' && value > 50 && metrics.abu.value > 80) {
                 errorEl.textContent = 'Warning: High SAR contradicts high ABU. Review band definitions.';
@@ -1322,17 +1592,17 @@
         }
 
         function calculateFromRaw(metric) {
-            const raw1 = document.getElementById(`${metric}-raw1`);
-            const raw2 = document.getElementById(`${metric}-raw2`);
-            const percent = document.getElementById(`${metric}-percent`);
-            const direct = document.getElementById(`${metric}-direct`);
+            const raw1 = document.getElementById(metric + '-raw1');
+            const raw2 = document.getElementById(metric + '-raw2');
+            const percent = document.getElementById(metric + '-percent');
+            const direct = document.getElementById(metric + '-direct');
 
             if (raw1.value && raw2.value) {
                 const val1 = parseFloat(raw1.value);
                 const val2 = parseFloat(raw2.value);
 
                 if (val2 === 0) {
-                    const errorEl = document.getElementById(`${metric}-raw2-error`);
+                    const errorEl = document.getElementById(metric + '-raw2-error');
                     errorEl.textContent = 'Cannot divide by zero';
                     errorEl.classList.add('show');
                     return;
@@ -1355,34 +1625,32 @@
         }
 
         function updateProgressIndicator() {
-            const completed = Object.values(metrics).filter(m => m.value !== null).length;
+            const completed = Object.values(metrics).filter(function(m) { return m.value !== null; }).length;
             const total = Object.keys(metrics).length;
             const percentage = Math.round((completed / total) * 100);
 
-            document.getElementById('progress-text').textContent = 
-                `${completed} of ${total} metrics completed (${percentage}%)`;
-            document.getElementById('progress-fill').style.width = `${percentage}%`;
+            document.getElementById('progress-text').textContent = completed + ' of ' + total + ' metrics completed (' + percentage + '%)';
+            document.getElementById('progress-fill').style.width = percentage + '%';
         }
 
         function highlightNextMetric() {
             const metricOrder = ['aagi', 'sar', 'abu', 'fgs', 'dtf', 'tr', 'fqts'];
             
-            // Remove all highlights
-            metricOrder.forEach(metric => {
-                document.getElementById(`card-${metric}`).classList.remove('needs-attention');
+            metricOrder.forEach(function(metric) {
+                document.getElementById('card-' + metric).classList.remove('needs-attention');
             });
 
-            // Find first incomplete metric
-            for (let metric of metricOrder) {
+            for (var i = 0; i < metricOrder.length; i++) {
+                var metric = metricOrder[i];
                 if (metrics[metric].value === null) {
-                    document.getElementById(`card-${metric}`).classList.add('needs-attention');
+                    document.getElementById('card-' + metric).classList.add('needs-attention');
                     break;
                 }
             }
         }
 
         function updateMetricStatus(metric) {
-            const status = document.getElementById(`${metric}-status`);
+            const status = document.getElementById(metric + '-status');
             const value = metrics[metric].value;
             
             if (value === null) {
@@ -1390,21 +1658,21 @@
                 return;
             }
 
-            let statusClass = 'status-green';
-            let statusText = '✓ Healthy';
+            var statusClass = 'status-green';
+            var statusText = '✓ Healthy';
 
             if (metric === 'aagi') {
                 if (value === 0) {
                     statusClass = 'status-green';
                     statusText = '✓ Target State';
-                } else if (value <= 5) {
+                } else if (value === 1) {
                     statusClass = 'status-amber';
                     statusText = '⚠ Structural Gap';
                 } else {
                     statusClass = 'status-red';
                     statusText = '✕ Governance Failure';
                 }
-            } else if (['sar', 'fgs', 'tr', 'fqts'].includes(metric)) {
+            } else if (['sar', 'fgs', 'tr', 'fqts'].indexOf(metric) !== -1) {
                 if (value <= metrics[metric].target) {
                     statusClass = 'status-green';
                     statusText = '✓ Healthy';
@@ -1415,7 +1683,7 @@
                     statusClass = 'status-red';
                     statusText = '✕ Bottleneck';
                 }
-            } else if (['abu', 'dtf'].includes(metric)) {
+            } else if (['abu', 'dtf'].indexOf(metric) !== -1) {
                 if (value >= metrics[metric].target) {
                     statusClass = 'status-green';
                     statusText = '✓ Healthy';
@@ -1428,7 +1696,7 @@
                 }
             }
 
-            status.className = `status-chip ${statusClass}`;
+            status.className = 'status-chip ' + statusClass;
             status.innerHTML = statusText;
         }
 
@@ -1441,7 +1709,7 @@
         }
 
         function updateOverallScore() {
-            const validMetrics = Object.entries(metrics).filter(([key, data]) => data.value !== null);
+            const validMetrics = Object.entries(metrics).filter(function(entry) { return entry[1].value !== null; });
             
             if (validMetrics.length === 0) {
                 document.getElementById('overall-score').textContent = '--';
@@ -1449,13 +1717,15 @@
                 return;
             }
 
-            let totalHealth = 0;
-            validMetrics.forEach(([key, data]) => {
-                let health = 0;
+            var totalHealth = 0;
+            validMetrics.forEach(function(entry) {
+                var key = entry[0];
+                var data = entry[1];
+                var health = 0;
                 
                 if (key === 'aagi') {
-                    health = data.value === 0 ? 100 : (data.value <= 5 ? 50 : 0);
-                } else if (['sar', 'fgs', 'tr', 'fqts'].includes(key)) {
+                    health = data.value === 0 ? 100 : (data.value === 1 ? 50 : 0);
+                } else if (['sar', 'fgs', 'tr', 'fqts'].indexOf(key) !== -1) {
                     if (data.value <= data.target) {
                         health = 100;
                     } else if (data.value <= data.critical) {
@@ -1479,8 +1749,8 @@
             const overallScore = Math.round(totalHealth / validMetrics.length);
             document.getElementById('overall-score').textContent = overallScore;
             
-            let status = '';
-            let color = '';
+            var status = '';
+            var color = '';
             if (overallScore >= 80) {
                 status = 'Minimal founder dependency — enterprise ready';
                 color = 'var(--success)';
@@ -1502,9 +1772,9 @@
         }
 
         function updateMetricSummaries() {
-            ['aagi', 'sar', 'abu', 'fgs', 'dtf', 'tr', 'fqts'].forEach(key => {
-                const valueEl = document.getElementById(`${key}-value`);
-                const summaryEl = document.getElementById(`${key}-summary`);
+            ['aagi', 'sar', 'abu', 'fgs', 'dtf', 'tr', 'fqts'].forEach(function(key) {
+                const valueEl = document.getElementById(key + '-value');
+                const summaryEl = document.getElementById(key + '-summary');
                 
                 if (metrics[key].value !== null) {
                     if (key === 'aagi') {
@@ -1514,7 +1784,7 @@
                     }
                     
                     updateMetricStatus(key);
-                    const status = document.getElementById(`${key}-status`);
+                    const status = document.getElementById(key + '-status');
                     summaryEl.className = status.className;
                     summaryEl.innerHTML = status.innerHTML;
                 } else {
@@ -1548,7 +1818,7 @@
             titleEl.textContent = 'Authority-Accountability Gap (AAGI)';
             
             const count = metrics.aagi.value;
-            valueEl.textContent = `${count} ${count === 1 ? 'OKR' : 'OKRs'} mismatched`;
+            valueEl.textContent = count + (count === 1 ? ' OKR' : ' OKRs') + ' mismatched';
 
             if (count === 0) {
                 callout.style.background = '#d1fae5';
@@ -1570,21 +1840,11 @@
                 actionEl.textContent = '→ Review this OKR owner\'s authority within 48 hours';
                 actionEl.style.color = '#047857';
                 actionEl.style.fontWeight = '500';
-            } else if (count <= 5) {
-                callout.style.background = '#fed7aa';
-                callout.style.borderLeftColor = '#f59e0b';
-                valueEl.style.color = '#92400e';
-                impactEl.innerHTML = `<strong>Systematic governance failure.</strong> Multiple misaligned OKRs indicate fundamental structural problems, not individual issues.`;
-                impactEl.style.color = '#92400e';
-                impactEl.style.fontWeight = '600';
-                actionEl.textContent = '→ Schedule authority realignment session within 7 days';
-                actionEl.style.color = '#047857';
-                actionEl.style.fontWeight = '500';
             } else {
                 callout.style.background = '#fee2e2';
                 callout.style.borderLeftColor = '#dc2626';
                 valueEl.style.color = '#991b1b';
-                impactEl.innerHTML = `<strong>Critical structural breakdown.</strong> Organisation has authority theatre, not genuine accountability framework.`;
+                impactEl.innerHTML = '<strong>Critical structural breakdown.</strong> ' + count + ' mismatched OKRs indicate governance framework is fundamentally broken.';
                 impactEl.style.color = '#991b1b';
                 impactEl.style.fontWeight = '600';
                 actionEl.textContent = '→ Zero-base all decision rights this month';
@@ -1594,22 +1854,21 @@
         }
 
         function renderChart() {
-            const validMetrics = Object.entries(metrics).filter(([key, data]) => data.value !== null);
+            const validMetrics = Object.entries(metrics).filter(function(entry) { return entry[1].value !== null; });
             
             if (validMetrics.length === 0) return;
 
             const ctx = document.getElementById('trendChart').getContext('2d');
             
-            // Calculate health scores for all metrics (0-100 scale)
-            const healthScores = ['aagi', 'sar', 'abu', 'fgs', 'dtf', 'tr', 'fqts'].map(key => {
+            const healthScores = ['aagi', 'sar', 'abu', 'fgs', 'dtf', 'tr', 'fqts'].map(function(key) {
                 if (metrics[key].value === null) return 0;
                 
                 const data = metrics[key];
-                let health = 0;
+                var health = 0;
                 
                 if (key === 'aagi') {
-                    health = data.value === 0 ? 100 : (data.value <= 5 ? 50 : 0);
-                } else if (['sar', 'fgs', 'tr', 'fqts'].includes(key)) {
+                    health = data.value === 0 ? 100 : (data.value === 1 ? 50 : 0);
+                } else if (['sar', 'fgs', 'tr', 'fqts'].indexOf(key) !== -1) {
                     if (data.value <= data.target) {
                         health = 100;
                     } else if (data.value <= data.critical) {
@@ -1689,117 +1948,124 @@
             const tr = metrics.tr.value;
             const fqts = metrics.fqts.value;
 
+            if (window.contextData && window.contextData.opPercent > 70 && sar !== null && sar > 30 && fgs !== null && fgs > 25) {
+                insights.push({
+                    title: 'Operational Overload Driving Centralisation',
+                    values: window.contextData.opPercent + '% operational, SAR: ' + sar + '%, FGS: ' + fgs + '%',
+                    impact: 'You\'re drowning in operations, which forces centralisation. The authority gap compounds the operational burden—you can't delegate because you're firefighting, and you're firefighting because you haven't delegated.',
+                    action: 'Break the cycle: delegate your 5 most frequent operational decisions this week, even imperfectly. Operational load will decrease as delegation increases.'
+                });
+            }
+
             if (sar >= 14 && tr >= 6) {
                 insights.push({
                     title: 'Trust Deficit Pattern Detected',
-                    values: `SAR: ${sar}%, TR: ${tr}%`,
+                    values: 'SAR: ' + sar + '%, TR: ' + tr + '%',
                     impact: 'You\'re granting authority on paper, withdrawing it in practice. Systematic reversals train teams to seek approval regardless of formal bands. This isn\'t delegation—it\'s authority theatre.',
                     action: 'Write explicit delegation criteria and freeze reversals for 14 days. Track outcomes.'
                 });
             }
 
-            if (fqts > 30 && snapshots.length > 0) {
+            if (fqts !== null && fqts > 30 && snapshots.length > 0) {
                 const lastSnapshot = snapshots[snapshots.length - 1];
-                if (lastSnapshot.metrics.fqts?.value > 30) {
+                if (lastSnapshot.metrics.fqts && lastSnapshot.metrics.fqts.value > 30) {
                     insights.push({
                         title: 'Persistent Queue Bottleneck (2+ Periods)',
-                        values: `FQTS: ${fqts}%`,
+                        values: 'FQTS: ' + fqts + '%',
                         impact: 'Chronic founder response delays compound across organisation. Execution velocity constrained by single-point approval.',
                         action: 'Drop approval bands by one level for 30 days. Measure throughput changes.'
                     });
                 }
             }
 
-            if (fqts > 30 && fgs > 18) {
+            if (fqts !== null && fqts > 30 && fgs !== null && fgs > 18) {
                 insights.push({
                     title: 'Founder Gating Crisis',
-                    values: `FQTS: ${fqts}%, FGS: ${fgs}%`,
+                    values: 'FQTS: ' + fqts + '%, FGS: ' + fgs + '%',
                     impact: 'Meeting and decision bottlenecks compound latency. You\'re the organisational constraint, not the strategic leader.',
                     action: 'Route through ops triage; auto-approve sub-£5k with sampling audit. Immediate implementation.'
                 });
             }
 
-            if (dtf < 56 && sar >= 14) {
+            if (dtf !== null && dtf < 56 && sar !== null && sar >= 14) {
                 insights.push({
                     title: 'Systematic Over-Centralisation',
-                    values: `DTF: ${dtf}%, SAR: ${sar}%`,
+                    values: 'DTF: ' + dtf + '%, SAR: ' + sar + '%',
                     impact: 'Organisational capability exists but is suppressed by approval dependency. Team throughput artificially constrained.',
                     action: 'Reassign top 5 recurring decisions to leads with SLAs. Track resolution rates weekly.'
                 });
             }
 
-            if (aagi > 5 && fgs > 18) {
+            if (aagi !== null && aagi > 1 && fgs !== null && fgs > 18) {
                 insights.push({
                     title: 'Authority-Accountability Structural Failure',
-                    values: `AAGI: ${aagi}, FGS: ${fgs}%`,
+                    values: 'AAGI: ' + aagi + ', FGS: ' + fgs + '%',
                     impact: 'OKR owners cannot execute outcomes they\'re measured on. Governance framework is fundamentally broken, not misaligned.',
                     action: 'Zero-base all OKR decision rights within 7 days. This is structural, not tactical.'
                 });
             }
 
-            if (abu < 64 && tr > 6) {
+            if (abu !== null && abu < 64 && tr !== null && tr > 6) {
                 insights.push({
                     title: 'Band Clarity Crisis',
-                    values: `ABU: ${abu}%, TR: ${tr}%`,
+                    values: 'ABU: ' + abu + '%, TR: ' + tr + '%',
                     impact: 'Unclear bands driving elevation and reversals. Teams lack confidence in what they can decide independently.',
                     action: 'Republish bands with specific examples; require written exception analysis pre-reversal.'
                 });
             }
 
             if (snapshots.length > 0) {
-                const lastSAR = snapshots[snapshots.length - 1].metrics.sar?.value;
-                const lastAAGI = snapshots[snapshots.length - 1].metrics.aagi?.value;
-                if (lastSAR && sar < lastSAR && aagi === lastAAGI) {
+                const lastSAR = snapshots[snapshots.length - 1].metrics.sar ? snapshots[snapshots.length - 1].metrics.sar.value : null;
+                const lastAAGI = snapshots[snapshots.length - 1].metrics.aagi ? snapshots[snapshots.length - 1].metrics.aagi.value : null;
+                if (lastSAR && sar !== null && sar < lastSAR && aagi === lastAAGI) {
                     insights.push({
                         title: 'Tactical Improvement, Structural Gap Persists',
-                        values: `SAR declining, AAGI unchanged: ${aagi}`,
+                        values: 'SAR declining, AAGI unchanged: ' + aagi,
                         impact: 'Approvals improving but governance structure remains misaligned. Treating symptoms, not root cause.',
                         action: 'Convert 3 OKR owners into decision owners with matching authority bands.'
                     });
                 }
             }
 
-            if (abu >= 80 && tr > 6) {
+            if (abu !== null && abu >= 80 && tr !== null && tr > 6) {
                 insights.push({
                     title: 'Inconsistent Override Pattern',
-                    values: `ABU: ${abu}%, TR: ${tr}%`,
+                    values: 'ABU: ' + abu + '%, TR: ' + tr + '%',
                     impact: 'Strong band compliance undermined by frequent reversals. Sends mixed signals about genuine delegation.',
                     action: 'Enforce "no silent reversals" policy. Require documented reasoning and coaching session.'
                 });
             }
 
-            if (dtf > 60 && sar >= 14) {
+            if (dtf !== null && dtf > 60 && sar !== null && sar >= 14) {
                 insights.push({
                     title: 'Latent Capability Underutilised',
-                    values: `DTF: ${dtf}%, SAR: ${sar}%`,
+                    values: 'DTF: ' + dtf + '%, SAR: ' + sar + '%',
                     impact: 'Non-founder capability proven but artificially gated by shadow approvals. Organisational capacity exists but is suppressed.',
                     action: 'Accelerate authority migration to proven performers. They\'re ready; you\'re the constraint.'
                 });
             }
 
-            if (fgs > 25) {
+            if (fgs !== null && fgs > 25) {
                 insights.push({
                     title: 'Meeting Bottleneck Critical',
-                    values: `FGS: ${fgs}%`,
+                    values: 'FGS: ' + fgs + '%',
                     impact: 'Quarter of meetings blocked awaiting founder decision. Execution velocity constrained at systematic level.',
                     action: 'Appoint deputy decision maker closer to operational work. Immediate delegation required.'
                 });
             }
 
             container.innerHTML = '';
-            insights.slice(0, 5).forEach(insight => {
+            insights.slice(0, 5).forEach(function(insight) {
                 const div = document.createElement('div');
                 div.className = 'insight-item';
-                div.innerHTML = `
-                    <h4>${insight.title}</h4>
-                    <div style="margin: 8px 0; color: #6b7280;">Measured: ${insight.values}</div>
-                    <div class="insight-impact">Impact: ${insight.impact}</div>
-                    <div class="insight-action">→ Action: ${insight.action}</div>
-                `;
+                div.innerHTML = '<h4>' + insight.title + '</h4>' +
+                    '<div style="margin: 8px 0; color: #6b7280;">Measured: ' + insight.values + '</div>' +
+                    '<div class="insight-impact">Impact: ' + insight.impact + '</div>' +
+                    '<div class="insight-action">→ Action: ' + insight.action + '</div>';
                 container.appendChild(div);
             });
 
-            if (insights.length === 0 && Object.values(metrics).some(m => m.value !== null)) {
+            if (insights.length === 0 && Object.values(metrics).some(function(m) { return m.value !== null; })) {
                 container.innerHTML = '<div class="insight-item"><p>Your metrics don\'t trigger priority alerts. Continue monitoring and re-measure after implementing changes. Authority gaps often emerge under stress conditions.</p></div>';
             } else if (insights.length === 0) {
                 container.innerHTML = '<div class="insight-item"><p>Enter measurement data to generate contextual insights about authority gaps and systematic bottlenecks.</p></div>';
@@ -1807,7 +2073,7 @@
         }
 
         function saveSnapshot() {
-            const validMetrics = Object.values(metrics).filter(m => m.value !== null).length;
+            const validMetrics = Object.values(metrics).filter(function(m) { return m.value !== null; }).length;
             if (validMetrics === 0) {
                 alert('Please enter at least one metric before saving a snapshot.');
                 return;
@@ -1828,7 +2094,7 @@
                 hour: '2-digit',
                 minute: '2-digit'
             });
-            alert(`Snapshot saved: ${dateStr}\n\nTotal snapshots: ${snapshots.length}\n\nUse "Compare Snapshots" button to view trends.`);
+            alert('Snapshot saved: ' + dateStr + '\n\nTotal snapshots: ' + snapshots.length + '\n\nUse "Compare Snapshots" button to view trends.');
         }
 
         function toggleSnapshotView() {
@@ -1851,12 +2117,11 @@
             const listContainer = document.getElementById('snapshot-list');
             const comparisonContainer = document.getElementById('comparison-view');
             
-            // Render snapshot list
-            let listHTML = '<div style="margin-bottom: 20px;">';
+            var listHTML = '<div style="margin-bottom: 20px;">';
             listHTML += '<h3 style="margin-bottom: 15px; color: var(--primary);">Saved Snapshots</h3>';
             listHTML += '<div style="display: grid; gap: 10px;">';
             
-            snapshots.forEach((snapshot, index) => {
+            snapshots.forEach(function(snapshot, index) {
                 const date = new Date(snapshot.date);
                 const dateStr = date.toLocaleDateString('en-GB', {
                     day: 'numeric',
@@ -1866,21 +2131,16 @@
                     minute: '2-digit'
                 });
                 
-                listHTML += `
-                    <div style="background: var(--subtle-bg); padding: 12px 15px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border);">
-                        <div>
-                            <strong>Snapshot ${index + 1}:</strong> ${dateStr}
-                            <span style="margin-left: 15px; color: var(--primary); font-weight: 600;">Score: ${snapshot.overallScore}</span>
-                        </div>
-                        <button onclick="deleteSnapshot(${index})" style="background: var(--danger); color: white; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: 600;">Delete</button>
-                    </div>
-                `;
+                listHTML += '<div style="background: var(--subtle-bg); padding: 12px 15px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border);">' +
+                    '<div><strong>Snapshot ' + (index + 1) + ':</strong> ' + dateStr +
+                    '<span style="margin-left: 15px; color: var(--primary); font-weight: 600;">Score: ' + snapshot.overallScore + '</span></div>' +
+                    '<button onclick="deleteSnapshot(' + index + ')" style="background: var(--danger); color: white; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: 600;">Delete</button>' +
+                    '</div>';
             });
             
             listHTML += '</div></div>';
             listContainer.innerHTML = listHTML;
             
-            // Render comparison if we have 2+ snapshots
             if (snapshots.length >= 2) {
                 renderSnapshotTrends(comparisonContainer);
             } else {
@@ -1903,52 +2163,43 @@
                 year: 'numeric'
             });
             
-            let html = '<div style="background: white; border: 1px solid var(--border); border-radius: 8px; padding: 20px;">';
+            var html = '<div style="background: white; border: 1px solid var(--border); border-radius: 8px; padding: 20px;">';
             html += '<h3 style="margin-bottom: 15px; color: var(--primary);">Trend Analysis: Latest vs Previous</h3>';
-            html += `<p style="margin-bottom: 20px; color: #6b7280;">Comparing ${previousDate} → ${latestDate}</p>`;
+            html += '<p style="margin-bottom: 20px; color: #6b7280;">Comparing ' + previousDate + ' → ' + latestDate + '</p>';
             
             html += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">';
             
-            // Overall Score Comparison
             const scoreDelta = latest.overallScore - previous.overallScore;
             const scoreArrow = scoreDelta > 0 ? '↑' : scoreDelta < 0 ? '↓' : '→';
             const scoreColor = scoreDelta > 0 ? 'var(--success)' : scoreDelta < 0 ? 'var(--danger)' : '#6b7280';
             
-            html += `
-                <div style="background: var(--subtle-bg); padding: 15px; border-radius: 6px; text-align: center;">
-                    <div style="font-size: 0.85rem; color: #6b7280; margin-bottom: 5px;">Overall Score</div>
-                    <div style="font-size: 1.8rem; font-weight: 700; color: ${scoreColor};">
-                        ${scoreArrow} ${Math.abs(scoreDelta)}
-                    </div>
-                    <div style="font-size: 0.9rem; margin-top: 5px;">
-                        ${previous.overallScore} → ${latest.overallScore}
-                    </div>
-                </div>
-            `;
+            html += '<div style="background: var(--subtle-bg); padding: 15px; border-radius: 6px; text-align: center;">' +
+                '<div style="font-size: 0.85rem; color: #6b7280; margin-bottom: 5px;">Overall Score</div>' +
+                '<div style="font-size: 1.8rem; font-weight: 700; color: ' + scoreColor + ';">' +
+                scoreArrow + ' ' + Math.abs(scoreDelta) + '</div>' +
+                '<div style="font-size: 0.9rem; margin-top: 5px;">' + previous.overallScore + ' → ' + latest.overallScore + '</div>' +
+                '</div>';
             
-            // Individual Metric Comparisons
-            ['aagi', 'sar', 'abu', 'fgs', 'dtf', 'tr', 'fqts'].forEach(key => {
-                const prevValue = previous.metrics[key]?.value;
-                const latestValue = latest.metrics[key]?.value;
+            ['aagi', 'sar', 'abu', 'fgs', 'dtf', 'tr', 'fqts'].forEach(function(key) {
+                const prevValue = previous.metrics[key] ? previous.metrics[key].value : null;
+                const latestValue = latest.metrics[key] ? latest.metrics[key].value : null;
                 
                 if (prevValue !== null && latestValue !== null) {
-                    let delta = latestValue - prevValue;
-                    let arrow, color;
+                    var delta = latestValue - prevValue;
+                    var arrow, color;
                     
-                    // For "lower is better" metrics (SAR, TR, FQTS, FGS, AAGI)
-                    if (['sar', 'tr', 'fqts', 'fgs', 'aagi'].includes(key)) {
+                    if (['sar', 'tr', 'fqts', 'fgs', 'aagi'].indexOf(key) !== -1) {
                         if (delta < 0) {
                             arrow = '↓';
-                            color = 'var(--success)'; // Improvement
+                            color = 'var(--success)';
                         } else if (delta > 0) {
                             arrow = '↑';
-                            color = 'var(--danger)'; // Worsening
+                            color = 'var(--danger)';
                         } else {
                             arrow = '→';
                             color = '#6b7280';
                         }
                     } else {
-                        // For "higher is better" metrics (ABU, DTF)
                         if (delta > 0) {
                             arrow = '↑';
                             color = 'var(--success)';
@@ -1964,23 +2215,16 @@
                     const displayValue = key === 'aagi' ? Math.abs(delta).toFixed(0) : Math.abs(delta).toFixed(1);
                     const unit = key === 'aagi' ? '' : '%';
                     
-                    html += `
-                        <div style="background: var(--subtle-bg); padding: 15px; border-radius: 6px; text-align: center;">
-                            <div style="font-size: 0.85rem; color: #6b7280; margin-bottom: 5px; font-weight: 600;">${key.toUpperCase()}</div>
-                            <div style="font-size: 1.5rem; font-weight: 700; color: ${color};">
-                                ${arrow} ${displayValue}${unit}
-                            </div>
-                            <div style="font-size: 0.9rem; margin-top: 5px;">
-                                ${prevValue}${unit} → ${latestValue}${unit}
-                            </div>
-                        </div>
-                    `;
+                    html += '<div style="background: var(--subtle-bg); padding: 15px; border-radius: 6px; text-align: center;">' +
+                        '<div style="font-size: 0.85rem; color: #6b7280; margin-bottom: 5px; font-weight: 600;">' + key.toUpperCase() + '</div>' +
+                        '<div style="font-size: 1.5rem; font-weight: 700; color: ' + color + ';">' + arrow + ' ' + displayValue + unit + '</div>' +
+                        '<div style="font-size: 0.9rem; margin-top: 5px;">' + prevValue + unit + ' → ' + latestValue + unit + '</div>' +
+                        '</div>';
                 }
             });
             
             html += '</div>';
             
-            // Interpretation
             html += '<div style="margin-top: 20px; padding: 15px; background: #f8fafc; border-left: 4px solid var(--secondary); border-radius: 5px;">';
             html += '<strong style="color: var(--primary);">Interpretation:</strong> ';
             
@@ -1996,14 +2240,13 @@
                 html += 'Significant regression. Investigate whether new bottlenecks emerged or delegation reversed.';
             }
             
-            html += '</div>';
-            html += '</div>';
+            html += '</div></div>';
             
             container.innerHTML = html;
         }
 
         function deleteSnapshot(index) {
-            if (!confirm(`Delete snapshot from ${new Date(snapshots[index].date).toLocaleDateString('en-GB')}?`)) {
+            if (!confirm('Delete snapshot from ' + new Date(snapshots[index].date).toLocaleDateString('en-GB') + '?')) {
                 return;
             }
             
@@ -2018,16 +2261,18 @@
         }
 
         function calculateOverallScoreValue() {
-            const validMetrics = Object.entries(metrics).filter(([key, data]) => data.value !== null);
+            const validMetrics = Object.entries(metrics).filter(function(entry) { return entry[1].value !== null; });
             if (validMetrics.length === 0) return 0;
 
-            let totalHealth = 0;
-            validMetrics.forEach(([key, data]) => {
-                let health = 0;
+            var totalHealth = 0;
+            validMetrics.forEach(function(entry) {
+                var key = entry[0];
+                var data = entry[1];
+                var health = 0;
                 
                 if (key === 'aagi') {
-                    health = data.value === 0 ? 100 : (data.value <= 5 ? 50 : 0);
-                } else if (['sar', 'fgs', 'tr', 'fqts'].includes(key)) {
+                    health = data.value === 0 ? 100 : (data.value === 1 ? 50 : 0);
+                } else if (['sar', 'fgs', 'tr', 'fqts'].indexOf(key) !== -1) {
                     if (data.value <= data.target) {
                         health = 100;
                     } else if (data.value <= data.critical) {
@@ -2064,7 +2309,7 @@
             const url = URL.createObjectURL(dataBlob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = `authority-gap-diagnostic-${new Date().toISOString().split('T')[0]}.json`;
+            link.download = 'authority-gap-diagnostic-' + new Date().toISOString().split('T')[0] + '.json';
             link.click();
             URL.revokeObjectURL(url);
         }
@@ -2085,18 +2330,25 @@
                 return;
             }
 
-            Object.keys(metrics).forEach(key => {
+            Object.keys(metrics).forEach(function(key) {
                 metrics[key].value = null;
             });
 
             snapshots = [];
+            window.contextData = null;
+            
+            const opInput = document.getElementById('operational-hours');
+            const stratInput = document.getElementById('strategic-hours');
+            if (opInput) opInput.value = '';
+            if (stratInput) stratInput.value = '';
+            updateHoursSplit();
 
-            document.querySelectorAll('input[type="number"]').forEach(input => {
+            document.querySelectorAll('input[type="number"]').forEach(function(input) {
                 input.value = '';
                 input.classList.remove('invalid');
             });
 
-            document.querySelectorAll('.validation-message').forEach(el => {
+            document.querySelectorAll('.validation-message').forEach(function(el) {
                 el.classList.remove('show');
             });
 
